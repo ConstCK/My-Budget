@@ -1,7 +1,9 @@
 from django.db import IntegrityError
 from rest_framework import viewsets
+from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from django.contrib.auth.models import User
 
@@ -51,3 +53,10 @@ class SpendingCategoryViewSet(viewsets.ModelViewSet):
 class IncomeCategoryViewSet(viewsets.ModelViewSet):
     serializer_class = IncomeCategorySerializer
     queryset = IncomeCategory.objects.all()
+
+
+@api_view(["GET"])
+@authentication_classes([TokenAuthentication, ])
+@permission_classes([IsAuthenticated])
+def get_main_data(request):
+    return Response("ok")

@@ -15,17 +15,32 @@ const routes = [
   {
     path: "/income",
     name: "income",
-    component: IncomeView,
+    component: () => import("../views/IncomeView.vue"),
   },
   {
     path: "/plan",
     name: "plan",
-    component: PlanView,
+    component: () => import("../views/PlanView.vue"),
   },
   {
     path: "/statistic",
     name: "statistic",
-    component: StatisticView,
+    component: () => import("../views/StatisticView.vue"),
+  },
+  {
+    path: "/settings",
+    name: "settings",
+    component: () => import("../views/SettingsView.vue"),
+  },
+  {
+    path: "/login",
+    name: "login",
+    component: () => import("../views/LoginView.vue"),
+  },
+  {
+    path: "/register",
+    name: "register",
+    component: () => import("../views/RegisterView.vue"),
   },
 ];
 

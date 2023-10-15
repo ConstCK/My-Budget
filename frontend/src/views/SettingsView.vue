@@ -10,7 +10,7 @@ import AuthBlock from "@/components/AuthBlock.vue";
 import NavBar from "@/components/NavBar.vue"
 import MainBlock from "@/components/MainBlock.vue"
 export default {
-    name: "StatisticView",
+    name: "SettingsView",
     components: {
         NavBar,
         AuthBlock,

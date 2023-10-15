@@ -3,7 +3,7 @@ from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
 
 from .views import register, FamilyViewSet, SpendingViewSet, IncomeViewSet, SpendingCategoryViewSet \
-    , IncomeCategoryViewSet, BalanceViewSet
+    , IncomeCategoryViewSet, BalanceViewSet, get_main_data
 
 router = routers.DefaultRouter()
 router.register('families', FamilyViewSet)
@@ -16,5 +16,7 @@ router.register('income-category', IncomeCategoryViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('register/', register),
-    path('login/', obtain_auth_token)
+    path('login/', obtain_auth_token),
+    path('main-data/', get_main_data),
+
 ]

@@ -1,14 +1,20 @@
-import { createStore } from 'vuex'
+import { createStore } from "vuex";
 
 export default createStore({
   state: {
+    isAuth: false,
+    currency: "₽",
+    currentDate: new Date(),
   },
-  getters: {
-  },
+  getters: {},
   mutations: {
+    logIn(state) {
+      state.isAuth = true;
+    },
+    logOut(state) {
+      state.isAuth = false;
+    },
   },
-  actions: {
-  },
-  modules: {
-  }
-})
+  actions: {},
+  modules: {},
+});

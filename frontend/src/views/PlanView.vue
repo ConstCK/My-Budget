@@ -1,15 +1,22 @@
 <template>
     <div>
-
+        <auth-block></auth-block>
+        <nav-bar></nav-bar>
     </div>
 </template>
 
 <script>
-    export default {
-        
-    }
+import AuthBlock from "@/components/AuthBlock.vue";
+import NavBar from "@/components/NavBar.vue"
+import MainBlock from "@/components/MainBlock.vue"
+export default {
+    name: "PlanView",
+    components: {
+        NavBar,
+        AuthBlock,
+        MainBlock,
+    },
+}
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
