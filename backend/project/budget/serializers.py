@@ -1,15 +1,20 @@
 from django.contrib.auth.models import User
+from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 
 from budget.models import Balance, Spending, Income, IncomeCategory
 
 
 class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
+
+    def validate_password(self, value):
+        validate_password(value)
+        return value
 
     class Meta:
         fields = ["username", "password"]
         model = User
+        extra_kwargs = {'password': {"write_only": True}}
 
 
 class BalanceSerializer(serializers.ModelSerializer):

@@ -20,7 +20,7 @@ class Spending(models.Model):
     category = models.ForeignKey("SpendingCategory", verbose_name="Категория расходов"
                                  , related_name="get_spending", on_delete=models.CASCADE)
     created_at = models.DateField(verbose_name="Дата записи")
-    amount = models.PositiveIntegerField(verbose_name="Сумма")
+    amount = models.PositiveIntegerField(verbose_name="Сумма", default=0)
     description = models.CharField(max_length=512, blank=True, verbose_name="Описание")
 
     def __str__(self):
@@ -36,7 +36,7 @@ class Income(models.Model):
     category = models.ForeignKey("IncomeCategory", verbose_name="Категория доходов"
                                  , related_name="get_income", on_delete=models.CASCADE)
     created_at = models.DateField(verbose_name="Дата записи")
-    amount = models.PositiveIntegerField(verbose_name="Сумма")
+    amount = models.PositiveIntegerField(verbose_name="Сумма", default=0)
     description = models.CharField(max_length=512, blank=True, verbose_name="Описание")
 
     def __str__(self):
@@ -49,7 +49,7 @@ class Income(models.Model):
 
 class SpendingCategory(models.Model):
     family = models.ForeignKey(User, verbose_name="Семья", on_delete=models.CASCADE)
-    title = models.CharField(max_length=128, unique=True, verbose_name="Название расхода")
+    title = models.CharField(max_length=128, verbose_name="Название расхода")
     description = models.CharField(max_length=512, verbose_name="Описание расхода")
 
     def __str__(self):
@@ -58,11 +58,12 @@ class SpendingCategory(models.Model):
     class Meta:
         verbose_name = "Категория расходов"
         verbose_name_plural = "Категории расходов"
+        unique_together = ["family", "title"]
 
 
 class IncomeCategory(models.Model):
     family = models.ForeignKey(User, verbose_name="Семья", on_delete=models.CASCADE)
-    title = models.CharField(max_length=128, unique=True, verbose_name="Название дохода")
+    title = models.CharField(max_length=128, verbose_name="Название дохода")
     description = models.CharField(max_length=512, blank=True, verbose_name="Описание дохода")
 
     def __str__(self):
@@ -71,6 +72,7 @@ class IncomeCategory(models.Model):
     class Meta:
         verbose_name = "Категория доходов"
         verbose_name_plural = "Категории доходов"
+        unique_together = ["family", "title"]
 
 
 class Plan(models.Model):

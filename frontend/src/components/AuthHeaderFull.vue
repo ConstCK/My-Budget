@@ -18,7 +18,7 @@
 <script>
 import UserButton from '@/components/UI/UserButton.vue';
 export default {
-    name: "auth-block",
+    name: "auth-header-full",
     components: {
         UserButton,
     },
@@ -45,7 +45,6 @@ export default {
     margin: 0 auto;
     font-family: "Capital", Courier, monospace;
     font-size: 24px;
-
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -56,7 +55,7 @@ export default {
 }
 
 .auth-left {
-    width: 60%;
+    width: 70%;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -68,10 +67,11 @@ export default {
 }
 
 .auth-right {
-    width: 40%;
+    width: 30%;
     display: flex;
     flex-direction: row;
     justify-content: start;
+    font-size: 16px;
 }
 
 .auth-btn {

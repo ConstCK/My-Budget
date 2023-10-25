@@ -1,19 +1,20 @@
 <template>
     <div>
-        <auth-block></auth-block>
+        <auth-header-full></auth-header-full>
         <nav-bar></nav-bar>
     </div>
 </template>
 
 <script>
-import AuthBlock from "@/components/AuthBlock.vue";
+import AuthHeaderFull from "@/components/AuthHeaderFull.vue";
 import NavBar from "@/components/NavBar.vue"
 import MainBlock from "@/components/MainBlock.vue"
+
 export default {
     name: "StatisticView",
     components: {
         NavBar,
-        AuthBlock,
+        AuthHeaderFull,
         MainBlock,
     },
 }

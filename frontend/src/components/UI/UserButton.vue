@@ -25,6 +25,7 @@ export default {
     padding: 10px 20px;
     margin: 20px;
     transition: all 0.5s ease-out;
+    cursor: pointer;
 }
 
 .btn:hover {

@@ -1,22 +1,40 @@
 <template>
-    <login-block></login-block>
-    <login-form v-bind:header="header"></login-form>
+    <auth-header-short></auth-header-short>
+    <auth-form v-bind:header="header" v-bind:errorMessage="errorMessage" @submitForm="handleLogin"></auth-form>
 </template>
 
 <script>
-import LoginBlock from "@/components/LoginBlock.vue";
-import LoginForm from "@/components/LoginForm.vue";
+import { login } from "@/API/apiServices";
+import AuthHeaderShort from "@/components/AuthHeaderShort.vue";
+import AuthForm from "@/components/AuthForm.vue";
 
 export default {
-    name: "AuthView",
+    name: "auth-view",
     components: {
-        LoginBlock, LoginForm
+        AuthHeaderShort, AuthForm
     },
     data() {
         return {
-            header: "Страница авторизации"
+            header: "Страница авторизации",
+            errorMessage: "",
         }
     },
+    methods: {
+        handleLogin(event) {
+            login(event.user, event.password).then(
+                (response) => {
+                    this.$store.commit("logIn")
+                    localStorage.setItem("name", event.user);
+                    localStorage.setItem("token", response.data["token"]);
+                    this.$router.push("/")
+                }).catch((err) => {
+                    this.errorMessage = "Ошибка авторизации";
+                    localStorage.setItem("name", "");
+                    localStorage.setItem("token", "");
+                })
+
+        }
+    }
 }
 </script>
 

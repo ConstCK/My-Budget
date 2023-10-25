@@ -7,7 +7,6 @@ export default {
     mame: "user-input",
     props: {
         modelValue: [String],
-        required: false,
     },
     methods: {
         updateInput(event) {
@@ -20,16 +19,18 @@ export default {
 
 <style scoped>
 .input {
+    width: 80%;
     font-family: "Basic", Courier, monospace;
     font-size: 28px;
-    width: 60%;
+    font-weight: bold;
     text-align: center;
-    color: white;
+    color: black;
     background-color: teal;
     border: 2px solid black;
     box-shadow: 0 0 3px 10px rgba(0, 195, 195, 0.6);
     padding: 15px;
-    margin: 40px;
+    margin: 30px;
+    cursor: pointer;
 }
 
 .input:focus {

@@ -1,20 +1,40 @@
 <template>
     <div>
-        <auth-block></auth-block>
+        <auth-header-full></auth-header-full>
         <nav-bar></nav-bar>
+        <budget-form v-bind:header="header" :mode="currentMode" @submitForm="handleSpendingAddition"></budget-form>
     </div>
 </template>
 
 <script>
-import AuthBlock from "@/components/AuthBlock.vue";
-import NavBar from "@/components/NavBar.vue"
-import MainBlock from "@/components/MainBlock.vue"
+import AuthHeaderFull from "@/components/AuthHeaderFull.vue";
+import NavBar from "@/components/NavBar.vue";
+import BudgetForm from "@/components/BudgetForm.vue";
+import { addSpending } from "@/API/apiServices.js";
+
 export default {
     name: "SpendingView",
     components: {
         NavBar,
-        AuthBlock,
-        MainBlock,
+        AuthHeaderFull,
+        BudgetForm,
+    },
+    data() {
+        return {
+            currentUser: localStorage.getItem("name"),
+            token: localStorage.getItem("token"),
+            header: "Добавление расходов",
+            currentMode: "Spending",
+        }
+    },
+    methods: {
+        handleSpendingAddition(event) {
+            addSpending(this.currentUser, this.token, event).then((response) => {
+                console.log(response)
+            }).catch((err) => {
+                console.log(err)
+            })
+        }
     },
 }
 </script>

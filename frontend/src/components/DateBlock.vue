@@ -6,7 +6,7 @@
 
 <script>
 export default {
-    name: "date-bar",
+    name: "date-block",
 }
 </script>
 

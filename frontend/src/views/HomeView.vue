@@ -1,24 +1,24 @@
 <template>
   <div class="home">
-    <auth-block></auth-block>
+    <auth-header-full></auth-header-full>
     <nav-bar></nav-bar>
     <main-block></main-block>
   </div>
 </template>
 
 <script>
-import AuthBlock from "@/components/AuthBlock.vue";
-import NavBar from "@/components/NavBar.vue"
-import MainBlock from "@/components/MainBlock.vue"
+import AuthHeaderFull from "@/components/AuthHeaderFull.vue";
+import NavBar from "@/components/NavBar.vue";
+import MainBlock from "@/components/MainBlock.vue";
+
 export default {
   name: 'HomeView',
   components: {
     NavBar,
-    AuthBlock,
+    AuthHeaderFull,
     MainBlock,
-},
+  },
 }
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

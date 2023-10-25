@@ -19,8 +19,8 @@
 </template>
 
 <script>
-import { getMainData } from '@/API/services';
-import DateBlock from './DateBlock.vue';
+import { getMainData } from '@/API/apiServices';
+import DateBlock from '@/components/DateBlock.vue';
 
 export default {
     name: "main-block",
@@ -29,17 +29,27 @@ export default {
     },
     data() {
         return {
+            currentUser: localStorage.getItem("name"),
+            token: localStorage.getItem("token"),
             currentBudget: 0,
             currentSpending: 0,
             currentIncome: 0,
-            token: localStorage.getItem("token")
         }
     },
     methods: {
 
     },
     mounted() {
-        // getMainData(this.token)
+        if (this.currentUser.length > 0) {
+            this.$store.commit("logIn")
+        }
+        getMainData(this.currentUser, this.token).then((response) => {
+            this.currentBudget = response.data.balance;
+            this.currentIncome = response.data.income["total_income"];
+            this.currentSpending = response.data.spending["total_spending"];
+        }).catch((error) => {
+            console.log("Ошибка получения данных:", error)
+        })
     }
 }
 </script>
@@ -47,7 +57,6 @@ export default {
 <style scoped>
 .main-block {
     width: 99%;
-    min-height: 60vh;
     margin: 0 auto;
     border: 0.5px teal solid;
     box-shadow: 0 0 0 3px rgba(0, 128, 128, 0.5);

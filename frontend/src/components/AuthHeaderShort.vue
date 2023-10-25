@@ -9,7 +9,7 @@
 <script>
 import UserButton from '@/components/UI/UserButton.vue';
 export default {
-    name: "login-block",
+    name: "auth-header-short",
     components: {
         UserButton,
     },

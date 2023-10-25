@@ -33,11 +33,6 @@
   src: url("/src/assets/fonts/Sorcerer.ttf");
 }
 
-@font-face {
-  font-family: "Basic";
-  src: url("/src/assets/fonts/Luga.ttf");
-}
-
 * {
   padding: 0;
   margin: 0;
@@ -52,5 +47,6 @@
   min-height: 100vh;
   background-color: rgba(0, 0, 0, 0.8);
   box-shadow: 0 0 0 10px rgba(0, 0, 0, 0.7);
+  overflow-x: hidden;
 }
 </style>

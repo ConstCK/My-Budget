@@ -58,14 +58,16 @@ def category_and_balance_creation(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Spending)
 def balance_decreasing(sender, instance, created, **kwargs):
     if created:
-        balance = Balance.objects.last()
-        Balance.objects.create(family=instance.family, balance=(balance.balance - instance.amount),
+        balance = Balance.objects.filter(family=instance.family).last()
+        new_balance = int(balance.balance) - int(instance.amount)
+        Balance.objects.create(family=instance.family, balance=new_balance,
                                created_at=instance.created_at)
 
 
 @receiver(post_save, sender=Income)
-def balance_decreasing(sender, instance, created, **kwargs):
+def balance_increasing(sender, instance, created, **kwargs):
     if created:
-        balance = Balance.objects.last()
-        Balance.objects.create(family=instance.family, balance=(balance.balance + instance.amount),
+        balance = Balance.objects.filter(family=instance.family).last()
+        new_balance = int(balance.balance) + int(instance.amount)
+        Balance.objects.create(family=instance.family, balance=new_balance,
                                created_at=instance.created_at)

@@ -10,8 +10,8 @@
 
 <script>
 import UserInput from "@/components/UI/UserInput.vue";
-import UserButton from "./UI/UserButton.vue";
-import { login } from "@/API/services";
+import UserButton from "@/components/UI/UserButton.vue";
+import { login } from "@/API/apiServices";
 export default {
     name: "login-form",
     components: {
@@ -51,7 +51,6 @@ export default {
 <style scoped>
 .login-form {
     width: 99%;
-    min-height: 80vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
