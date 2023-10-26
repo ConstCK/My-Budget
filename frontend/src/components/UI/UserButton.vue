@@ -1,5 +1,5 @@
 <template>
-    <button class="btn" v-cloak>
+    <button class="btn">
         <slot></slot>
     </button>
 </template>
@@ -39,9 +39,5 @@ export default {
     color: black;
     box-shadow: 2px 4px black;
     border-radius: 10px;
-}
-
-[v-cloak] {
-    display: none;
 }
 </style>

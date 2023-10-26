@@ -41,7 +41,7 @@ export default {
 
 <style scoped>
 .add-category-form {
-    width: 90vw;
+    width: 100vw;
     display: flex;
     flex-direction: column;
     align-items: center;

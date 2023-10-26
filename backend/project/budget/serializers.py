@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 
-from budget.models import Balance, Spending, Income, IncomeCategory
+from budget.models import Balance, Spending, Income, IncomeCategory, SpendingPlan
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -45,3 +45,11 @@ class SpendingCategorySerializer(serializers.ModelSerializer):
     class Meta:
         fields = "__all__"
         model = IncomeCategory
+
+
+class PlanSerializer(serializers.ModelSerializer):
+    category_info = SpendingCategorySerializer(read_only=True, source='category')
+
+    class Meta:
+        fields = "__all__"
+        model = SpendingPlan

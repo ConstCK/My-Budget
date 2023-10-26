@@ -6,7 +6,7 @@
 export default {
     mame: "user-input",
     props: {
-        modelValue: [String],
+        modelValue: [String, Number],
     },
     methods: {
         updateInput(event) {
@@ -28,7 +28,7 @@ export default {
     background-color: teal;
     border: 2px solid black;
     box-shadow: 0 0 3px 10px rgba(0, 195, 195, 0.6);
-    padding: 15px;
+    padding: 10px;
     margin: 30px;
     cursor: pointer;
 }
@@ -42,5 +42,9 @@ export default {
     color: black;
     font-weight: bold;
     font-size: 18px;
+}
+
+[v-cloak] {
+    display: none;
 }
 </style>

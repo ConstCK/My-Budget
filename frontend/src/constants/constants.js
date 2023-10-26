@@ -10,6 +10,8 @@ const ADD_INCOME_CATEGORY_URL = "add-income-category/";
 const ADD_SPENDING_CATEGORY_URL = "add-spending-category/";
 const ADD_INCOME_URL = "add-income/";
 const ADD_SPENDING_URL = "add-spending/";
+const PLANS_URL = "get-plans/";
+const UPDATE_PLANS_URL = "update-plans/";
 
 export {
   BASE_URL,
@@ -24,4 +26,6 @@ export {
   ADD_SPENDING_CATEGORY_URL,
   ADD_INCOME_URL,
   ADD_SPENDING_URL,
+  PLANS_URL,
+  UPDATE_PLANS_URL,
 };

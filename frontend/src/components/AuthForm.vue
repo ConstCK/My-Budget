@@ -11,7 +11,7 @@
 <script>
 import UserInput from "@/components/UI/UserInput.vue";
 import UserButton from "@/components/UI/UserButton.vue";
-import { authValidation } from "@/Helpers/validationServices.js"
+import { passwordValidation } from "@/Helpers/validationServices.js"
 
 export default {
     name: "auth-form",
@@ -35,7 +35,7 @@ export default {
     },
     computed: {
         validatePassword() {
-            return authValidation(this.password)
+            return passwordValidation(this.password)
         }
     }
 }

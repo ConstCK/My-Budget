@@ -2,13 +2,13 @@
     <div class="settings">
         <auth-header-full></auth-header-full>
         <nav-bar></nav-bar>
-        <div class="settings-block">
+        <div v-cloak class="settings-block">
             <h1 class="settings-header">Категории {{ header }}</h1>
             <user-button :class="categoryMode == null ? 'btn disabled' : 'btn'" @click="toggleMode">
                 {{ primaryButtonText }} {{ secondaryButtonText }}
             </user-button>
             <div class="settings-selection">
-                <user-button class="btn" :class="categoryMode == 'Income' ? 'active' : 'inactive'"
+                <user-button v-cloak class="btn" :class="categoryMode == 'Income' ? 'active' : 'inactive'"
                     @click="handleIcncomeCategories">
                     Доходы
                 </user-button>
@@ -95,8 +95,6 @@ export default {
                 }).catch((err) => {
                     console.log(err)
                 })
-
-
             } else {
                 deleteSpendingCategory(id, this.token).then((response) => {
                     this.categories = this.categories.filter((element) => {
@@ -148,7 +146,7 @@ export default {
 .settings-block {
     width: 99%;
     min-height: 60vh;
-    margin: 0 auto;
+    margin: 0 auto 20px;
     border: 0.5px teal solid;
     box-shadow: 0 0 0 3px rgba(0, 128, 128, 0.5);
     text-shadow: 4px 4px 4px rgba(0, 0, 0, 0.6);
@@ -184,5 +182,9 @@ export default {
     pointer-events: none;
     background-color: white;
     color: black;
+}
+
+[v-cloak] {
+    display: none;
 }
 </style>

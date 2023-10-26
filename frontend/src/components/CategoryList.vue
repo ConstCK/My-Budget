@@ -4,7 +4,7 @@
             <div class="category-cell">
                 <div class="category-title">{{ element.title }}</div>
                 <div class="category-descriptioon">{{ element.description }}</div>
-                <user-button :disabled="element.title == 'Прочее'" @click="deleteCategory(element.id)">Удалить</user-button>
+                <user-button :disabled="element.title == 'Прочее'" @click="handleClick(element.id)">Удалить</user-button>
             </div>
         </div>
     </div>
@@ -22,12 +22,9 @@ export default {
         require: true,
     },
     methods: {
-        deleteCategory(id) {
+        handleClick(id) {
             this.$emit("deleteCategory", id)
         },
-        addCategory() {
-            this.$emit("addCategory")
-        }
     }
 }
 </script>
@@ -37,11 +34,11 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: 20px;
 }
 
 .category-cell {
     width: 80vw;
-    height: 110px;
     border: 1px teal solid;
     background-color: rgba(0, 0, 0, 0.5);
     display: flex;
@@ -55,11 +52,6 @@ export default {
 .category-title {
     margin: 10px 20px;
     font-size: 32px;
-}
-
-.category-description {
-    margin: 10px 20px;
-    font-size: 24px;
 }
 
 [disabled] {

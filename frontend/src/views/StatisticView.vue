@@ -8,14 +8,12 @@
 <script>
 import AuthHeaderFull from "@/components/AuthHeaderFull.vue";
 import NavBar from "@/components/NavBar.vue"
-import MainBlock from "@/components/MainBlock.vue"
 
 export default {
     name: "StatisticView",
     components: {
         NavBar,
         AuthHeaderFull,
-        MainBlock,
     },
 }
 </script>

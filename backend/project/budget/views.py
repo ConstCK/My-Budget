@@ -11,9 +11,9 @@ from rest_framework.decorators import api_view, authentication_classes, permissi
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from .models import Spending, Income, IncomeCategory, SpendingCategory, Balance
+from .models import Spending, Income, IncomeCategory, SpendingCategory, Balance, SpendingPlan
 from .serializers import UserSerializer, SpendingSerializer, IncomeSerializer, \
-    IncomeCategorySerializer, SpendingCategorySerializer, BalanceSerializer
+    IncomeCategorySerializer, SpendingCategorySerializer, BalanceSerializer, PlanSerializer
 
 
 @api_view(['POST'])
@@ -190,6 +190,33 @@ def add_spending(request):
         obj = Spending(family=user, created_at=date, category=category,
                        description=data["description"], amount=data["amount"])
         obj.save()
+        return Response("ok")
+    except Exception as error:
+        return Response(error)
+
+
+@api_view(["POST"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def get_plans(request):
+    try:
+        user = User.objects.get(username=request.data["user"])
+        queryset = SpendingPlan.objects.filter(family=user)
+        serializer = PlanSerializer(queryset, many=True)
+        return Response(serializer.data)
+    except Exception as error:
+        return Response(error)
+
+
+@api_view(["POST"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def update_plans(request):
+    try:
+        for key, value in request.data["data"].items():
+            obj = SpendingPlan.objects.get(id=key)
+            obj.amount = value
+            obj.save()
         return Response("ok")
     except Exception as error:
         return Response(error)

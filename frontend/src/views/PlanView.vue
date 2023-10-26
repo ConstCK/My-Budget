@@ -2,20 +2,21 @@
     <div>
         <auth-header-full></auth-header-full>
         <nav-bar></nav-bar>
+        <plan-form></plan-form>
     </div>
 </template>
 
 <script>
 import AuthHeaderFull from "@/components/AuthHeaderFull.vue";
 import NavBar from "@/components/NavBar.vue";
-import MainBlock from "@/components/MainBlock.vue";
+import PlanForm from "@/components/PlanForm.vue";
 
 export default {
-    name: "PlanView",
+    name: "plan-view",
     components: {
         NavBar,
         AuthHeaderFull,
-        MainBlock,
+        PlanForm,
     },
 }
 </script>

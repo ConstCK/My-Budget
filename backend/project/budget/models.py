@@ -4,7 +4,7 @@ from django.db import models
 
 class Balance(models.Model):
     family = models.ForeignKey(User, verbose_name="Семья", on_delete=models.CASCADE)
-    created_at = models.DateField(verbose_name="Дата записи")
+    created_at = models.DateField(auto_now_add=True, verbose_name="Дата записи")
     balance = models.IntegerField(verbose_name="Текущий баланс")
 
     def __str__(self):
@@ -75,26 +75,18 @@ class IncomeCategory(models.Model):
         unique_together = ["family", "title"]
 
 
-class Plan(models.Model):
+class SpendingPlan(models.Model):
     family = models.ForeignKey(User, verbose_name="Семья", on_delete=models.CASCADE)
+    category = models.ForeignKey("SpendingCategory", on_delete=models.CASCADE, verbose_name="Категория расходов")
+    amount = models.PositiveIntegerField(verbose_name="Сумма расходов", default=0)
     created_at = models.DateField(auto_now=True, verbose_name="Дата записи")
 
     def __str__(self):
-        return f"План расходов на {self.created_at} для семьи {self.family}"
+        return f"План расходов по категории {self.category}"
 
     class Meta:
         verbose_name = "План расходов"
         verbose_name_plural = "Планы расходов"
 
 
-class PlanItem(models.Model):
-    plan = models.ForeignKey("Plan", on_delete=models.CASCADE)
-    category = models.ForeignKey("SpendingCategory", on_delete=models.CASCADE)
-    amount = models.PositiveIntegerField(verbose_name="Сумма трат")
 
-    def __str__(self):
-        return f"Расходы по категории {self.category}"
-
-    class Meta:
-        verbose_name = "Элемент плана расходов"
-        verbose_name_plural = "Элементы плана расходов"

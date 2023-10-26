@@ -1,5 +1,5 @@
 <template>
-    <select class="select" @change="updateSelect" :value="modelValue" v-cloak>
+    <select class="select" @change="updateSelect" :value="modelValue">
         <option disabled selected class="option" default value="">{{ defaultOption }}</option>
         <slot></slot>
     </select>
@@ -52,9 +52,5 @@ export default {
     color: black;
     font-weight: bolder;
     font-weight: bolder;
-}
-
-[v-cloak] {
-    display: none;
 }
 </style>

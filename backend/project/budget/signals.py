@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 
-from .models import Balance, SpendingCategory, IncomeCategory, Spending, Income
+from .models import Balance, SpendingCategory, IncomeCategory, Spending, Income, SpendingPlan
 
 
 @receiver(post_save, sender=User)
@@ -71,3 +71,11 @@ def balance_increasing(sender, instance, created, **kwargs):
         new_balance = int(balance.balance) + int(instance.amount)
         Balance.objects.create(family=instance.family, balance=new_balance,
                                created_at=instance.created_at)
+
+
+@receiver(post_save, sender=SpendingCategory)
+def plan_creation(sender, instance, created, **kwargs):
+    if created:
+        user = User.objects.get(username=instance.family)
+        SpendingPlan.objects.create(family=user, category=instance)
+

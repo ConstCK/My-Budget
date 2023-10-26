@@ -27,7 +27,7 @@ import UserSelect from '@/components/UI/UserSelect.vue';
 import UserInput from '@/components/UI/UserInput.vue';
 import UserButton from '@/components/UI/UserButton.vue';
 import { getIncomeCategories, getSpendingCategories } from "@/API/apiServices";
-import { budgetValidation } from "@/Helpers/validationServices.js";
+import { amountValidation } from "@/Helpers/validationServices.js";
 
 export default {
     name: "budget-form",
@@ -76,8 +76,7 @@ export default {
     },
     computed: {
         validateForm() {
-            console.log(budgetValidation(this.amount))
-            return budgetValidation(this.amount)
+            return amountValidation(this.amount)
         }
     },
     mounted() {
@@ -104,7 +103,8 @@ export default {
 <style scoped>
 .budget-form {
     width: 99%;
-    margin: 0 auto 50px auto;
+    min-height: 60vh;
+    margin: 0 auto 50px;
     display: flex;
     flex-direction: column;
     align-items: center;

@@ -12,6 +12,8 @@ import {
   ADD_SPENDING_CATEGORY_URL,
   ADD_INCOME_URL,
   ADD_SPENDING_URL,
+  PLANS_URL,
+  UPDATE_PLANS_URL,
 } from "@/constants/constants";
 
 const login = async (user, password) => {
@@ -205,6 +207,45 @@ const addSpending = async (user, token, data) => {
   }
 };
 
+const getPlans = async (user, token) => {
+  try {
+    const response = await axios({
+      baseURL: BASE_URL,
+      url: PLANS_URL,
+      method: "post",
+      headers: {
+        Authorization: "Token " + token,
+      },
+      data: {
+        user: user,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log(`Ошибка получения данных: ${error}`);
+  }
+};
+
+const updatePlans = async (user, token, data) => {
+  try {
+    const response = await axios({
+      baseURL: BASE_URL,
+      url: UPDATE_PLANS_URL,
+      method: "post",
+      headers: {
+        Authorization: "Token " + token,
+      },
+      data: {
+        user: user,
+        data: data,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log(`Ошибка получения данных: ${error}`);
+  }
+};
+
 export {
   login,
   register,
@@ -216,4 +257,6 @@ export {
   addCategory,
   addIncome,
   addSpending,
+  getPlans,
+  updatePlans,
 };

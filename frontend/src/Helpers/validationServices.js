@@ -1,4 +1,4 @@
-const authValidation = (password) => {
+const passwordValidation = (password) => {
   let isNum = false;
   let isStr = false;
   let size = false;
@@ -16,8 +16,9 @@ const authValidation = (password) => {
   return size && isStr && isNum;
 };
 
-const budgetValidation = (amount) => {
+const amountValidation = (amount) => {
+  amount = String(amount);
   return amount.length > 0 && Number.isInteger(Number(amount));
 };
 
-export { authValidation, budgetValidation };
+export { passwordValidation, amountValidation };

@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { getMainData } from '@/API/apiServices';
+import { getMainData } from '@/API/apiServices.js';
 import DateBlock from '@/components/DateBlock.vue';
 
 export default {
@@ -35,9 +35,6 @@ export default {
             currentSpending: 0,
             currentIncome: 0,
         }
-    },
-    methods: {
-
     },
     mounted() {
         if (this.currentUser.length > 0) {
