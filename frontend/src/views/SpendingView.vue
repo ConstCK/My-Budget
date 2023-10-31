@@ -21,7 +21,6 @@ export default {
     },
     data() {
         return {
-            currentUser: localStorage.getItem("name"),
             token: localStorage.getItem("token"),
             header: "Добавление расходов",
             currentMode: "Spending",
@@ -29,7 +28,7 @@ export default {
     },
     methods: {
         handleSpendingAddition(event) {
-            addSpending(this.currentUser, this.token, event).then((response) => {
+            addSpending(this.token, event).then((response) => {
                 console.log(response)
             }).catch((err) => {
                 console.log(err)

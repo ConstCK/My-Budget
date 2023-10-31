@@ -21,7 +21,6 @@ export default {
     },
     data() {
         return {
-            currentUser: localStorage.getItem("name"),
             token: localStorage.getItem("token"),
             header: "Добавление доходов",
             currentMode: "Income",
@@ -29,7 +28,7 @@ export default {
     },
     methods: {
         handleIncomeAddition(event) {
-            addIncome(this.currentUser, this.token, event).then((response) => {
+            addIncome(this.token, event).then((response) => {
                 console.log(response)
             }).catch((err) => {
                 console.log(err)

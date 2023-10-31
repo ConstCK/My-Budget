@@ -14,6 +14,9 @@ import {
   ADD_SPENDING_URL,
   PLANS_URL,
   UPDATE_PLANS_URL,
+  GENERAL_STATISTIC_URL,
+  ANNUAL_STATISTIC_URL,
+  MONTH_STATISTIC_URL,
 } from "@/constants/constants";
 
 const login = async (user, password) => {
@@ -50,17 +53,14 @@ const register = async (user, password) => {
   }
 };
 
-const getMainData = async (user, token) => {
+const getMainData = async (token) => {
   try {
     const response = await axios({
       baseURL: BASE_URL,
       url: MAIN_DATA_URL,
-      method: "post",
+      method: "get",
       headers: {
         Authorization: "Token " + token,
-      },
-      data: {
-        user: user,
       },
     });
     return response;
@@ -69,17 +69,14 @@ const getMainData = async (user, token) => {
   }
 };
 
-const getIncomeCategories = async (user, token) => {
+const getIncomeCategories = async (token) => {
   try {
     const response = await axios({
       baseURL: BASE_URL,
       url: INCOME_CATEGORY_URL,
-      method: "post",
+      method: "get",
       headers: {
         Authorization: "Token " + token,
-      },
-      data: {
-        user: user,
       },
     });
     return response;
@@ -88,17 +85,14 @@ const getIncomeCategories = async (user, token) => {
   }
 };
 
-const getSpendingCategories = async (user, token) => {
+const getSpendingCategories = async (token) => {
   try {
     const response = await axios({
       baseURL: BASE_URL,
       url: SPENDING_CATEGORY_URL,
-      method: "post",
+      method: "get",
       headers: {
         Authorization: "Token " + token,
-      },
-      data: {
-        user: user,
       },
     });
     return response;
@@ -145,7 +139,7 @@ const deleteSpendingCategory = async (id, token) => {
   }
 };
 
-const addCategory = async (user, title, description, mode, token) => {
+const addCategory = async (title, description, mode, token) => {
   try {
     const response = await axios({
       baseURL: BASE_URL,
@@ -156,7 +150,6 @@ const addCategory = async (user, title, description, mode, token) => {
         Authorization: "Token " + token,
       },
       data: {
-        user: user,
         title: title,
         description: description,
       },
@@ -167,7 +160,7 @@ const addCategory = async (user, title, description, mode, token) => {
   }
 };
 
-const addIncome = async (user, token, data) => {
+const addIncome = async (token, data) => {
   try {
     const response = await axios({
       baseURL: BASE_URL,
@@ -177,7 +170,6 @@ const addIncome = async (user, token, data) => {
         Authorization: "Token " + token,
       },
       data: {
-        user: user,
         data: data,
       },
     });
@@ -187,7 +179,7 @@ const addIncome = async (user, token, data) => {
   }
 };
 
-const addSpending = async (user, token, data) => {
+const addSpending = async (token, data) => {
   try {
     const response = await axios({
       baseURL: BASE_URL,
@@ -197,7 +189,6 @@ const addSpending = async (user, token, data) => {
         Authorization: "Token " + token,
       },
       data: {
-        user: user,
         data: data,
       },
     });
@@ -207,17 +198,14 @@ const addSpending = async (user, token, data) => {
   }
 };
 
-const getPlans = async (user, token) => {
+const getPlans = async (token) => {
   try {
     const response = await axios({
       baseURL: BASE_URL,
       url: PLANS_URL,
-      method: "post",
+      method: "get",
       headers: {
         Authorization: "Token " + token,
-      },
-      data: {
-        user: user,
       },
     });
     return response;
@@ -226,7 +214,7 @@ const getPlans = async (user, token) => {
   }
 };
 
-const updatePlans = async (user, token, data) => {
+const updatePlans = async (token, data) => {
   try {
     const response = await axios({
       baseURL: BASE_URL,
@@ -236,8 +224,62 @@ const updatePlans = async (user, token, data) => {
         Authorization: "Token " + token,
       },
       data: {
-        user: user,
         data: data,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log(`Ошибка получения данных: ${error}`);
+  }
+};
+
+const getGeneralStatistic = async (token) => {
+  try {
+    const response = await axios({
+      baseURL: BASE_URL,
+      url: GENERAL_STATISTIC_URL,
+      method: "get",
+      headers: {
+        Authorization: "Token " + token,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log(`Ошибка получения данных: ${error}`);
+  }
+};
+
+const getAnnualStatistic = async (token, year) => {
+  try {
+    const response = await axios({
+      baseURL: BASE_URL,
+      url: ANNUAL_STATISTIC_URL,
+      method: "post",
+      headers: {
+        Authorization: "Token " + token,
+      },
+      data: {
+        year: year,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log(`Ошибка получения данных: ${error}`);
+  }
+};
+
+const getMonthStatistic = async (token, year, month) => {
+  try {
+    const response = await axios({
+      baseURL: BASE_URL,
+      url: MONTH_STATISTIC_URL,
+      method: "post",
+      headers: {
+        Authorization: "Token " + token,
+      },
+      data: {
+        year: year,
+        month: month,
       },
     });
     return response;
@@ -259,4 +301,7 @@ export {
   addSpending,
   getPlans,
   updatePlans,
+  getGeneralStatistic,
+  getAnnualStatistic,
+  getMonthStatistic,
 };

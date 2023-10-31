@@ -4,15 +4,14 @@
         <nav-bar></nav-bar>
         <div v-cloak class="settings-block">
             <h1 class="settings-header">Категории {{ header }}</h1>
-            <user-button :class="categoryMode == null ? 'btn disabled' : 'btn'" @click="toggleMode">
+            <user-button :class="categoryMode == null ? 'disabled' : ''" @click="toggleMode">
                 {{ primaryButtonText }} {{ secondaryButtonText }}
             </user-button>
             <div class="settings-selection">
-                <user-button v-cloak class="btn" :class="categoryMode == 'Income' ? 'active' : 'inactive'"
-                    @click="handleIcncomeCategories">
+                <user-button :class="categoryMode == 'Income' ? 'active' : 'inactive'" @click="handleIncomeCategories">
                     Доходы
                 </user-button>
-                <user-button class="btn" :class="categoryMode == 'Spending' ? 'active' : 'inactive'"
+                <user-button :class="categoryMode == 'Spending' ? 'active' : 'inactive'"
                     @click="handleSpendingCategories">Расходы</user-button>
             </div>
             <div v-if="displayCategories == true">
@@ -54,7 +53,6 @@ export default {
     },
     data() {
         return {
-            currentUser: localStorage.getItem("name"),
             token: localStorage.getItem("token"),
             categories: [],
             header: "доходов и расходов",
@@ -66,11 +64,11 @@ export default {
         }
     },
     methods: {
-        handleIcncomeCategories() {
+        handleIncomeCategories() {
             this.categoryMode = "Income";
             this.header = "доходов";
             this.secondaryButtonText = "доходов";
-            getIncomeCategories(this.currentUser, this.token).then((response) => {
+            getIncomeCategories(this.token).then((response) => {
                 this.categories = response.data
             }).catch((err) => {
                 console.log("Ошибка получения данных", err)
@@ -80,7 +78,7 @@ export default {
             this.categoryMode = "Spending";
             this.header = "расходов";
             this.secondaryButtonText = "расходов";
-            getSpendingCategories(this.currentUser, this.token).then((response) => {
+            getSpendingCategories(this.token).then((response) => {
                 this.categories = response.data
             }).catch((err) => {
                 console.log("Ошибка получения данных", err)
@@ -115,7 +113,7 @@ export default {
             }
         },
         handleCategoryAddition(event) {
-            addCategory(this.currentUser,
+            addCategory(
                 event["title"],
                 event["description"],
                 this.categoryMode,
@@ -182,9 +180,5 @@ export default {
     pointer-events: none;
     background-color: white;
     color: black;
-}
-
-[v-cloak] {
-    display: none;
 }
 </style>

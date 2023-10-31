@@ -32,8 +32,17 @@ export default {
     },
     methods: {
         handlePlanUpdate() {
-            updatePlans(this.currentUser, this.token, this.data)
-                .then((response) => { console.log(response) })
+            updatePlans(this.token, this.data)
+                .then((response) => {
+                    getPlans(this.token)
+                        .then((response) => {
+                            this.planList = response.data
+                            response.data.forEach(element => {
+                                this.data[element.id] = element.amount
+                            });
+                        })
+                        .catch((err) => { console.log(err) })
+                })
                 .catch((err) => {
                     console.log(err)
                 })
@@ -52,7 +61,7 @@ export default {
 
     },
     mounted() {
-        getPlans(this.currentUser, this.token)
+        getPlans(this.token)
             .then((response) => {
                 this.planList = response.data
                 response.data.forEach(element => {

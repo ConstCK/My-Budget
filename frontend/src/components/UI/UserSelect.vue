@@ -10,13 +10,13 @@ export default {
     name: "user-select",
     props: {
         modelValue: {
-            type: String,
+            type: [String, Number],
             required: true,
         }
     },
     data() {
         return {
-            defaultOption: "Выберите категорию"
+            defaultOption: "-------"
         }
     },
     methods: {
@@ -39,7 +39,7 @@ export default {
     border-radius: 8px;
     border: none;
     padding: 10px 20px;
-    margin: 30px;
+    margin: 20px;
     transition: all 0.5s ease-out;
     text-align: center;
     outline: none;

@@ -14,8 +14,6 @@ def category_and_balance_creation(sender, instance, created, **kwargs):
 
         SpendingCategory.objects.create(family=instance, title="Прочее",
                                         description="Прочие расходы")
-        SpendingCategory.objects.create(family=instance, title="Коммуналка",
-                                        description="Расходы по оплате жилья и связи")
         SpendingCategory.objects.create(family=instance, title="Еда",
                                         description="Расходы по покупке продуктов питания")
         SpendingCategory.objects.create(family=instance, title="Машина",

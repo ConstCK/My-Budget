@@ -12,6 +12,23 @@ const ADD_INCOME_URL = "add-income/";
 const ADD_SPENDING_URL = "add-spending/";
 const PLANS_URL = "get-plans/";
 const UPDATE_PLANS_URL = "update-plans/";
+const GENERAL_STATISTIC_URL = "statistic/general/";
+const ANNUAL_STATISTIC_URL = "statistic/annual/";
+const MONTH_STATISTIC_URL = "statistic/month/";
+const MONTHS = {
+  1: "Январь",
+  2: "Февраль",
+  3: "Март",
+  4: "Апрель",
+  5: "Май",
+  6: "Июнь",
+  7: "Июль",
+  8: "Август",
+  9: "Сентябрь",
+  10: "Октябрь",
+  11: "Ноябрь",
+  12: "Декабрь",
+};
 
 export {
   BASE_URL,
@@ -28,4 +45,8 @@ export {
   ADD_SPENDING_URL,
   PLANS_URL,
   UPDATE_PLANS_URL,
+  GENERAL_STATISTIC_URL,
+  ANNUAL_STATISTIC_URL,
+  MONTH_STATISTIC_URL,
+  MONTHS,
 };

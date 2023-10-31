@@ -49,7 +49,6 @@ export default {
     },
     data() {
         return {
-            currentUser: localStorage.getItem("name"),
             token: localStorage.getItem("token"),
             categories: [],
             category: "",
@@ -61,13 +60,13 @@ export default {
     },
     methods: {
         handleClick() {
-            this.data = {
+            this.formData = {
                 "category": this.category,
                 "description": this.description,
                 "amount": this.amount,
                 "date": this.date.toDateString(),
             }
-            this.$emit("submitForm", this.data)
+            this.$emit("submitForm", this.formData)
             this.category = "";
             this.description = "";
             this.amount = "";
@@ -81,13 +80,13 @@ export default {
     },
     mounted() {
         if (this.mode == "Income") {
-            getIncomeCategories(this.currentUser, this.token).then((response) => {
+            getIncomeCategories(this.token).then((response) => {
                 this.categories = response.data
             }).catch((err) => {
                 console.log(err)
             })
         } else if (this.mode == "Spending") {
-            getSpendingCategories(this.currentUser, this.token).then((response) => {
+            getSpendingCategories(this.token).then((response) => {
                 this.categories = response.data
             }).catch((err) => {
                 console.log(err)

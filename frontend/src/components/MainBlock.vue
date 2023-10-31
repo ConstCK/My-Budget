@@ -40,7 +40,7 @@ export default {
         if (this.currentUser.length > 0) {
             this.$store.commit("logIn")
         }
-        getMainData(this.currentUser, this.token).then((response) => {
+        getMainData(this.token).then((response) => {
             this.currentBudget = response.data.balance;
             this.currentIncome = response.data.income["total_income"];
             this.currentSpending = response.data.spending["total_spending"];
@@ -89,23 +89,35 @@ export default {
 
 .month-income {
     font-family: "Main", Courier, monospace;
-    font-size: 36px;
+    font-size: 32px;
     font-weight: bold;
     background-color: rgba(0, 195, 195, 0.8);
     border: 0.5px solid;
-    width: 50%;
-    padding: 40px 20px;
+    min-width: 50%;
+    padding: 30px 20px;
     text-align: center;
 }
 
 .month-spending {
     font-family: "Main", Courier, monospace;
-    font-size: 36px;
+    font-size: 32px;
     font-weight: bold;
-    width: 50%;
+    min-width: 50%;
     background-color: rgba(0, 195, 195, 0.8);
     border: 0.5px solid;
-    padding: 40px 20px;
+    padding: 30px 20px;
     text-align: center;
+}
+
+@media (max-width: 991px) {
+    * {
+        color: red;
+    }
+}
+
+@media (max-width: 767px) {
+    * {
+        color: blue;
+    }
 }
 </style>

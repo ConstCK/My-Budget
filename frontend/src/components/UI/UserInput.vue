@@ -29,7 +29,7 @@ export default {
     border: 2px solid black;
     box-shadow: 0 0 3px 10px rgba(0, 195, 195, 0.6);
     padding: 10px;
-    margin: 30px;
+    margin: 20px;
     cursor: pointer;
 }
 

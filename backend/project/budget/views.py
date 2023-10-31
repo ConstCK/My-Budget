@@ -3,7 +3,7 @@ import datetime
 from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
-from django.db.models import Sum
+from django.db.models import Sum, Count, Value, F
 from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.authtoken.models import Token
@@ -13,7 +13,7 @@ from rest_framework.response import Response
 
 from .models import Spending, Income, IncomeCategory, SpendingCategory, Balance, SpendingPlan
 from .serializers import UserSerializer, SpendingSerializer, IncomeSerializer, \
-    IncomeCategorySerializer, SpendingCategorySerializer, BalanceSerializer, PlanSerializer
+    IncomeCategorySerializer, SpendingCategorySerializer, BalanceSerializer, PlanSerializer, GeneralStatisticSerializer
 
 
 @api_view(['POST'])
@@ -58,13 +58,13 @@ class IncomeCategoryViewSet(viewsets.ModelViewSet):
     queryset = IncomeCategory.objects.all()
 
 
-@api_view(["POST"])
+@api_view(["GET"])
 @authentication_classes([TokenAuthentication, ])
 @permission_classes([IsAuthenticated])
 def get_main_data(request):
     try:
         current_month = datetime.datetime.now().month
-        user = User.objects.get(username=request.data["user"])
+        user = User.objects.get(id=request.user.id)
         balance = Balance.objects.filter(family=user).last().balance
         spending = Spending.objects.filter(family=user, created_at__month=current_month).aggregate(total_spending=Sum(
             "amount", default=0))
@@ -75,12 +75,12 @@ def get_main_data(request):
         raise Exception(f"Отсутствие данных по объекту... {error}")
 
 
-@api_view(["POST"])
+@api_view(["GET"])
 @authentication_classes([TokenAuthentication, ])
 @permission_classes([IsAuthenticated])
 def get_income_categories(request):
     try:
-        user = User.objects.get(username=request.data["user"])
+        user = User.objects.get(id=request.user.id)
         queryset = IncomeCategory.objects.filter(family=user)
         serializer = IncomeCategorySerializer(queryset, many=True)
         return Response(serializer.data)
@@ -88,12 +88,12 @@ def get_income_categories(request):
         raise Exception(f"Отсутствие данных... {error}")
 
 
-@api_view(["POST"])
+@api_view(["GET"])
 @authentication_classes([TokenAuthentication, ])
 @permission_classes([IsAuthenticated])
 def get_spending_categories(request):
     try:
-        user = User.objects.get(username=request.data["user"])
+        user = User.objects.get(id=request.user.id)
         queryset = SpendingCategory.objects.filter(family=user)
         serializer = SpendingCategorySerializer(queryset, many=True)
         return Response(serializer.data)
@@ -130,7 +130,7 @@ def delete_spending_category(request):
 @permission_classes([IsAuthenticated])
 def add_income_category(request):
     try:
-        user = User.objects.get(username=request.data["user"])
+        user = User.objects.get(id=request.user.id)
         obj = IncomeCategory(family=user,
                              title=request.data["title"],
                              description=request.data["description"])
@@ -148,7 +148,7 @@ def add_income_category(request):
 @permission_classes([IsAuthenticated])
 def add_spending_category(request):
     try:
-        user = User.objects.get(username=request.data["user"])
+        user = User.objects.get(id=request.user.id)
         obj = SpendingCategory(family=user,
                                title=request.data["title"],
                                description=request.data["description"])
@@ -167,7 +167,7 @@ def add_spending_category(request):
 def add_income(request):
     try:
         data = request.data["data"]
-        user = User.objects.get(username=request.data["user"])
+        user = User.objects.get(id=request.user.id)
         category = IncomeCategory.objects.get(id=data["category"])
         date = datetime.datetime.strptime(data["date"], "%a %b %d %Y").date()
         obj = Income(family=user, created_at=date, category=category,
@@ -175,7 +175,7 @@ def add_income(request):
         obj.save()
         return Response("ok")
     except Exception as error:
-        return Response(error)
+        raise Exception(f"Ошибка добавления данных... {error}")
 
 
 @api_view(["POST"])
@@ -184,7 +184,7 @@ def add_income(request):
 def add_spending(request):
     try:
         data = request.data["data"]
-        user = User.objects.get(username=request.data["user"])
+        user = User.objects.get(id=request.user.id)
         category = SpendingCategory.objects.get(id=data["category"])
         date = datetime.datetime.strptime(data["date"], "%a %b %d %Y").date()
         obj = Spending(family=user, created_at=date, category=category,
@@ -192,20 +192,20 @@ def add_spending(request):
         obj.save()
         return Response("ok")
     except Exception as error:
-        return Response(error)
+        raise Exception(f"Ошибка добавления данных... {error}")
 
 
-@api_view(["POST"])
+@api_view(["GET"])
 @authentication_classes([TokenAuthentication])
 @permission_classes([IsAuthenticated])
 def get_plans(request):
     try:
-        user = User.objects.get(username=request.data["user"])
+        user = User.objects.get(id=request.user.id)
         queryset = SpendingPlan.objects.filter(family=user)
         serializer = PlanSerializer(queryset, many=True)
         return Response(serializer.data)
     except Exception as error:
-        return Response(error)
+        raise Exception(f"Ошибка получения данных... {error}")
 
 
 @api_view(["POST"])
@@ -219,4 +219,65 @@ def update_plans(request):
             obj.save()
         return Response("ok")
     except Exception as error:
-        return Response(error)
+        raise Exception(f"Ошибка изменения данных... {error}")
+
+
+@api_view(["GET"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def get_general_statistic(request):
+    try:
+        user = request.user.id
+        spending_categories = SpendingCategory.objects.filter(family=user)\
+            .annotate(overall=Sum("get_spending__amount", default=0))
+        income_categories = IncomeCategory.objects.filter(family=user)\
+            .annotate(overall=Sum("get_income__amount", default=0))
+
+        spending_serializer = GeneralStatisticSerializer(spending_categories, many=True)
+        income_serializer = GeneralStatisticSerializer(income_categories, many=True)
+        return Response({"spending": spending_serializer.data, "income": income_serializer.data})
+    except Exception as error:
+        raise Exception(f"Ошибка получения данных... {error}")
+
+
+@api_view(["POST"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def get_annual_statistic(request):
+    try:
+        user = request.user.id
+        spending_categories = SpendingCategory.objects.filter(family=user,
+                                                              get_spending__created_at__year=request.data["year"])\
+            .annotate(overall=Sum("get_spending__amount", default=0))
+        income_categories = IncomeCategory.objects.filter(family=user,
+                                                          get_income__created_at__year=request.data["year"])\
+            .annotate(overall=Sum("get_income__amount", default=0))
+        spending_serializer = GeneralStatisticSerializer(spending_categories, many=True)
+        income_serializer = GeneralStatisticSerializer(income_categories, many=True)
+        return Response({"spending": spending_serializer.data, "income": income_serializer.data})
+    except Exception as error:
+        raise Exception(f"Ошибка получения данных... {error}")
+
+
+@api_view(["POST"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def get_month_statistic(request):
+    try:
+        user = request.user.id
+        spending_categories = SpendingCategory.objects.filter(family=user,
+                                                              get_spending__created_at__year=request.data["year"],
+                                                              get_spending__created_at__month=request.data["month"])\
+            .annotate(overall=Sum("get_spending__amount", default=0)).annotate(planned=F("get_plan__amount"))
+
+        income_categories = IncomeCategory.objects.filter(family=user,
+                                                          get_income__created_at__year=request.data["year"],
+                                                          get_income__created_at__month=request.data["month"]) \
+            .annotate(overall=Sum("get_income__amount", default=0))
+
+        spending_serializer = GeneralStatisticSerializer(spending_categories, many=True)
+        income_serializer = GeneralStatisticSerializer(income_categories, many=True)
+        print(spending_serializer)
+        return Response({"spending": spending_serializer.data, "income": income_serializer.data})
+    except Exception as error:
+        raise Exception(f"Ошибка получения данных... {error}")
