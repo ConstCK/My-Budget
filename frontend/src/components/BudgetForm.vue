@@ -1,6 +1,6 @@
 <template>
     <div class="budget-form">
-        <h1 class="header" v-text="header"></h1>
+        <header class="header" v-text="header"></header>
         <user-select class="select" v-model="category">
             <option class="option" v-for="cat in categories" :key="cat.id" :value="cat.id">
                 {{ cat.title }}
@@ -115,6 +115,7 @@ export default {
     font-family: "Primary", Courier, monospace;
     color: coral;
     margin: 20px;
+    font-size: 32px;
 }
 
 [disabled] {

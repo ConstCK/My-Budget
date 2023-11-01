@@ -1,10 +1,10 @@
 <template>
-    <div class="nav-bar">
+    <nav class="nav-bar">
         <user-button class="nav-btn" @click="$router.push('income')">Доход</user-button>
         <user-button class="nav-btn" @click="$router.push('spending')">Расход</user-button>
         <user-button class="nav-btn" @click="$router.push('statistic')">Статистика</user-button>
         <user-button class="nav-btn" @click="$router.push('plan')">Планирование</user-button>
-    </div>
+    </nav>
 </template>
 
 <script>

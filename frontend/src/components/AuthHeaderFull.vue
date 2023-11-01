@@ -1,6 +1,6 @@
 <template>
     <div class="auth-block">
-        <div class="auth-left">
+        <nav class="auth-left">
             <user-button class="auth-btn" @click="$router.push('/')"><img class="btn-img" src="@/assets/images/home.svg"
                     alt="home"></user-button>
             <user-button class="auth-btn" @click="$router.push('settings')"><img class="btn-img"
@@ -8,7 +8,7 @@
             <user-button v-if="$store.state.isAuth === false" @click="$router.push('login')">Войти</user-button>
             <user-button v-else @click="changeFamily">Сменить семью</user-button>
             <user-button @click="$router.push('register')">Регистрация</user-button>
-        </div>
+        </nav>
         <div class="auth-right">
             <div class="family-name">Семья: {{ name }}</div>
         </div>

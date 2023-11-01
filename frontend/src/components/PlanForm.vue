@@ -1,6 +1,6 @@
 <template>
     <div class="plan-form">
-        <h1 class="header">Месячное планирование расходов</h1>
+        <header class="header">Месячное планирование расходов</header>
         <div class="plan-cell" v-for="element in planList" :key="element.id">
             <div class="plan-category">{{ element.category_info.title }}</div>
             <div class="current-plan">Запланированный расход: {{ element.amount }}</div>
@@ -95,6 +95,7 @@ export default {
     font-family: "Primary", Courier, monospace;
     color: coral;
     margin: 20px;
+    font-size: 32px;
 }
 
 .plan-cell {

@@ -1,6 +1,6 @@
 <template>
     <div class="add-category-form">
-        <div class="category-header">Добавление категории</div>
+        <header class="category-header">Добавление категории</header>
         <user-input v-model="data.title" placeholder="Название..."></user-input>
         <user-input v-model="data.description" placeholder="Описание..."></user-input>
         <user-button @click="handleClick">Добавить</user-button>
@@ -49,7 +49,7 @@ export default {
 
 .category-header {
     font-family: "Primary", Courier, monospace;
-    font-size: 36px;
+    font-size: 32px;
     color: coral;
     margin: 20px 0 0 0;
 }

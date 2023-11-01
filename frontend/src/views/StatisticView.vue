@@ -3,17 +3,17 @@
         <auth-header-full></auth-header-full>
         <nav-bar></nav-bar>
         <div class="statistic-block">
-            <h1 class="header">Отчеты</h1>
-            <div class="nav-bar">
+            <header class="header">Отчеты</header>
+            <nav class="nav-bar">
                 <user-button :class="mode == 'General' ? 'active' : 'inactive'"
                     @click="handleGeneralStatistic">Общие</user-button>
                 <user-button :class="mode == 'Annual' ? 'active' : 'inactive'" @click="handleAnnualStatistic">За
                     год</user-button>
                 <user-button :class="mode == 'Month' ? 'active' : 'inactive'" @click="handleMonthStatistic">За
                     месяц</user-button>
-            </div>
+            </nav>
             <div class="info-block" v-show="mode == 'General'">
-                <h2 class="info-header">Доходы</h2>
+                <div class="info-header">Доходы</div>
                 <div class="message" v-show="!incomeData">Нет данных...</div>
                 <div class="income-statistic">
                     <div class="statistic-cell" v-for="element in allIncome" :key="element.id">
@@ -23,7 +23,7 @@
                         </div>
                     </div>
                 </div>
-                <h2 class="info-header">Расходы</h2>
+                <div class="info-header">Расходы</div>
                 <div class="message" v-show="!spendingsData">Нет данных...</div>
                 <div class="income-statistic">
                     <div class="statistic-cell" v-for="element in allSpendings" :key="element.id">
@@ -41,7 +41,7 @@
                     </user-select>
                     <user-button class="btn" @click="handleAnnualRequest">Запрос</user-button>
                 </div>
-                <h2 class="info-header">Доходы за {{ currentYear }} год</h2>
+                <div class="info-header">Доходы за {{ currentYear }} год</div>
                 <div class="message" v-show="!incomeData">Нет данных...</div>
                 <div class="income-statistic">
                     <div class="statistic-cell" v-for="element in allIncome" :key="element.id">
@@ -51,7 +51,7 @@
                         </div>
                     </div>
                 </div>
-                <h2 class="info-header">Расходы за {{ currentYear }} год</h2>
+                <div class="info-header">Расходы за {{ currentYear }} год</div>
                 <div class="message" v-show="!spendingsData">Нет данных...</div>
                 <div class="spending-statistic">
                     <div class="statistic-cell" v-for="element in allSpendings" :key="element.id">
@@ -73,7 +73,7 @@
                     <user-button class="btn" @click="handleMonthRequest">Запрос</user-button>
                 </div>
 
-                <h2 class="info-header">Доходы за {{ getFullMonth }}, {{ currentYear }} год</h2>
+                <div class="info-header">Доходы за {{ getFullMonth }}, {{ currentYear }} год</div>
                 <div class="message" v-show="!incomeData">Нет данных...</div>
                 <div class="income-statistic">
                     <div class="statistic-cell" v-for="element in allIncome" :key="element.id">
@@ -83,7 +83,7 @@
                         </div>
                     </div>
                 </div>
-                <h2 class="info-header">Расходы за {{ getFullMonth }}, {{ currentYear }} год</h2>
+                <div class="info-header">Расходы за {{ getFullMonth }}, {{ currentYear }} год</div>
                 <div class="message" v-show="!spendingsData">Нет данных...</div>
                 <div class="spending-statistic">
                     <div class="statistic-cell" v-for="element in allSpendings" :key="element.id">
@@ -102,7 +102,6 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </template>
@@ -222,10 +221,13 @@ export default {
     font-family: "Primary", Courier, monospace;
     color: coral;
     margin: 20px;
+    font-size: 32px;
 }
 
 .info-header {
     font-family: "Secondary", Courier, monospace;
+    font-size: 24px;
+    font-weight: bolder;
     color: coral;
     margin: 15px;
     padding: 10px;

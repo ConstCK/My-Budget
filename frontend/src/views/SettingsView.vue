@@ -20,7 +20,6 @@
             <div v-else>
                 <add-category-form @submitForm="handleCategoryAddition"></add-category-form>
             </div>
-
         </div>
     </div>
 </template>

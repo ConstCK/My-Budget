@@ -1,6 +1,6 @@
 <template>
     <div class="login-form">
-        <h1 class="auth-header" v-text="header"></h1>
+        <header class="auth-header" v-text="header"></header>
         <div class="login-message">{{ errorMessage }}</div>
         <user-input v-model="user" placeholder="Введите фамилию..." />
         <user-input v-model="password" placeholder="Введите пароль..." />
@@ -70,5 +70,6 @@ export default {
     font-family: "Primary", Courier, monospace;
     color: coral;
     margin: 20px;
+    font-size: 32px;
 }
 </style>
