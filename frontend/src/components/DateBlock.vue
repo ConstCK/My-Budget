@@ -1,6 +1,8 @@
 <template>
     <div class="date-block">
-        <p class="date-text">Сегодня:</p> {{ $store.state.currentDate.toLocaleDateString("ru") }}
+        <div class="date-text">Сегодня:</div>
+        <div class="date-value">{{ $store.state.currentDate.toLocaleDateString("ru") }}</div>
+
     </div>
 </template>
 
@@ -11,11 +13,6 @@ export default {
 </script>
 
 <style scoped>
-.date-text {
-    font-family: "Primary", Courier, monospace;
-    margin: 30px;
-}
-
 .date-block {
     width: 100%;
     margin: 0 auto;
@@ -23,10 +20,24 @@ export default {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    font-family: "Numeric", Courier, monospace;
+    font-family: "Primary", Courier, monospace;
     font-size: 48px;
     color: chocolate;
     border: 0.5px teal solid;
     box-shadow: 0 0 0 3px rgba(0, 128, 128, 0.5);
+}
+
+.date-text {
+    margin: 20px;
+}
+
+.date-value {
+    font-family: "Numeric", Courier, monospace;
+}
+
+@media (max-width: 767px) {
+    .date-block {
+        font-size: 32px;
+    }
 }
 </style>

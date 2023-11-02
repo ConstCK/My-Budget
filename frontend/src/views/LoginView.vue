@@ -32,7 +32,6 @@ export default {
                     localStorage.setItem("name", "");
                     localStorage.setItem("token", "");
                 })
-
         }
     }
 }

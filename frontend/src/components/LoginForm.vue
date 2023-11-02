@@ -50,7 +50,7 @@ export default {
 
 <style scoped>
 .login-form {
-    width: 99%;
+    width: 98%;
     display: flex;
     flex-direction: column;
     justify-content: center;

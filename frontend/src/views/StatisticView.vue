@@ -73,7 +73,7 @@
                     <user-button class="btn" @click="handleMonthRequest">Запрос</user-button>
                 </div>
 
-                <div class="info-header">Доходы за {{ getFullMonth }}, {{ currentYear }} год</div>
+                <div class="info-header">Доходы за {{ getFullMonth }} {{ currentYear }} год</div>
                 <div class="message" v-show="!incomeData">Нет данных...</div>
                 <div class="income-statistic">
                     <div class="statistic-cell" v-for="element in allIncome" :key="element.id">
@@ -83,7 +83,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="info-header">Расходы за {{ getFullMonth }}, {{ currentYear }} год</div>
+                <div class="info-header">Расходы за {{ getFullMonth }} {{ currentYear }} год</div>
                 <div class="message" v-show="!spendingsData">Нет данных...</div>
                 <div class="spending-statistic">
                     <div class="statistic-cell" v-for="element in allSpendings" :key="element.id">
@@ -96,7 +96,7 @@
                             <div class="category-title">Фактический расход</div>
                             <div class="spending-title">{{ element.title }}</div>
                             <div class="actual-details"
-                                :class="element.planned > element.overall ? 'positive' : 'negative'">
+                                :class="element.planned >= element.overall ? 'positive' : 'negative'">
                                 {{ element.overall }}{{ $store.state.currency }}</div>
                         </div>
                     </div>
@@ -201,7 +201,7 @@ export default {
 
 <style scoped>
 .statistic-block {
-    width: 99%;
+    width: 98%;
     min-height: 60vh;
     margin: 0 auto 50px;
     display: flex;
@@ -209,6 +209,12 @@ export default {
     align-items: center;
     border: 0.5px teal solid;
     box-shadow: 0 0 0 3px rgba(0, 128, 128, 0.5);
+    padding: 10px;
+}
+
+.nav-bar {
+    display: flex;
+    align-items: center;
 }
 
 .info-block {
@@ -257,7 +263,7 @@ export default {
 
 .row {
     width: 80vw;
-    border: 0.5px teal solid;
+    border: 0.1px teal solid;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -308,5 +314,22 @@ export default {
 
 .negative {
     color: red;
+}
+
+@media (max-width: 767px) {
+
+    .btn,
+    .select {
+        min-width: 60px;
+        min-height: 50px;
+        width: 100px;
+        margin: 10px;
+        padding: 5px;
+        font-size: 16px;
+    }
+
+    .statistic-cell {
+        font-size: 12px;
+    }
 }
 </style>

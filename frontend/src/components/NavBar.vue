@@ -19,7 +19,7 @@ export default {
 
 <style scoped>
 .nav-bar {
-    width: 99%;
+    width: 98%;
     margin: 0 auto;
     display: flex;
     flex-direction: row;
@@ -31,5 +31,22 @@ export default {
 
 .nav-btn {
     width: 200px;
+}
+
+@media (max-width: 991px) {
+    .nav-btn {
+        padding: 5px 10px;
+        font-size: 16px;
+        min-height: 30px;
+    }
+}
+
+@media (max-width: 767px) {
+    .nav-btn {
+        padding: 2px 5px;
+        font-size: 9px;
+        margin: 10px;
+        min-height: 30px;
+    }
 }
 </style>

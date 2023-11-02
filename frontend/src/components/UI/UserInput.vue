@@ -47,4 +47,27 @@ export default {
 [v-cloak] {
     display: none;
 }
+
+@media (max-width: 991px) {
+    *::placeholder {
+        font-size: 16px;
+    }
+
+    .input {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 767px) {
+    *::placeholder {
+        font-size: 14px;
+    }
+
+    .input {
+        font-size: 14px;
+        box-shadow: 0 0 3px 5px rgba(0, 195, 195, 0.6);
+        padding: 5px;
+        margin: 10px;
+    }
+}
 </style>

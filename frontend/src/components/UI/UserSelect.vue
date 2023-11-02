@@ -53,4 +53,16 @@ export default {
     font-weight: bolder;
     font-weight: bolder;
 }
+
+@media (max-width: 991px) {
+    .select {
+        font-size: 18px;
+    }
+}
+
+@media (max-width: 767px) {
+    .select {
+        font-size: 14px;
+    }
+}
 </style>

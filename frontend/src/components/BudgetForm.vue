@@ -6,9 +6,9 @@
                 {{ cat.title }}
             </option>
         </user-select>
-        <user-input v-model="description" placeholder="Добавьте описание...">
+        <user-input class="input" v-model="description" placeholder="Добавьте описание...">
         </user-input>
-        <user-input v-model="amount" placeholder="Добавьте сумму...">
+        <user-input class="input" v-model="amount" placeholder="Добавьте сумму...">
         </user-input>
         <DatePicker v-model="date" :style="{
             'background-color': 'rgb(0,155,155)',
@@ -16,7 +16,7 @@
             'color': 'black',
             'margin': '20px auto'
         }" />
-        <user-button :disabled="!validateForm" @click="handleClick">Добавить</user-button>
+        <user-button class="btn" :disabled="!validateForm" @click="handleClick">Добавить</user-button>
     </div>
 </template>
 
@@ -101,7 +101,7 @@ export default {
 
 <style scoped>
 .budget-form {
-    width: 99%;
+    width: 98%;
     min-height: 60vh;
     margin: 0 auto 50px;
     display: flex;
@@ -122,5 +122,21 @@ export default {
     pointer-events: none;
     background-color: white;
     color: black;
+}
+
+@media (max-width: 991px) {
+
+    .btn {
+        font-size: 22px;
+    }
+
+}
+
+
+@media (max-width: 767px) {
+
+    .btn {
+        font-size: 16px;
+    }
 }
 </style>

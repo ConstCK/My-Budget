@@ -74,4 +74,15 @@ export default {
     background-color: white;
     color: black;
 }
+
+@media (max-width: 991px) {
+    .auth-header {
+        margin: 50px auto 20px;
+    }
+
+    .auth-form {
+        width: 98%;
+        justify-content: start;
+    }
+}
 </style>

@@ -4,7 +4,7 @@
         <nav-bar></nav-bar>
         <div v-cloak class="settings-block">
             <h1 class="settings-header">Категории {{ header }}</h1>
-            <user-button :class="categoryMode == null ? 'disabled' : ''" @click="toggleMode">
+            <user-button class="switcher" :class="categoryMode == null ? 'disabled' : ''" @click="toggleMode">
                 {{ primaryButtonText }} {{ secondaryButtonText }}
             </user-button>
             <div class="settings-selection">
@@ -141,7 +141,7 @@ export default {
 
 <style scoped>
 .settings-block {
-    width: 99%;
+    width: 98%;
     min-height: 60vh;
     margin: 0 auto 20px;
     border: 0.5px teal solid;
@@ -179,5 +179,37 @@ export default {
     pointer-events: none;
     background-color: white;
     color: black;
+}
+
+@media (max-width: 991px) {
+    .settings-header {
+        font-size: 32px;
+        margin: 30px;
+    }
+
+    .btn {
+        min-width: 140px;
+        max-width: 300px;
+    }
+
+    .switcher {
+        min-width: 360px;
+    }
+}
+
+@media (max-width: 767px) {
+    .settings-header {
+        font-size: 24px;
+        margin: 30px;
+    }
+
+    .btn {
+        min-width: 140px;
+        max-width: 180px;
+    }
+
+    .switcher {
+        min-width: 300px;
+    }
 }
 </style>

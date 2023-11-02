@@ -20,7 +20,7 @@ export default {
     display: flex;
     flex-direction: row;
     justify-content: start;
-    width: 99%;
+    width: 98%;
     margin: 0 auto;
     font-family: "Primary", Courier, monospace;
     font-weight: bolder;

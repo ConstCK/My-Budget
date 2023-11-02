@@ -53,7 +53,7 @@ export default {
 
 <style scoped>
 .main-block {
-    width: 99%;
+    width: 98%;
     margin: 0 auto;
     border: 0.5px teal solid;
     box-shadow: 0 0 0 3px rgba(0, 128, 128, 0.5);
@@ -85,39 +85,54 @@ export default {
     margin: 30px auto;
     border-radius: 30px;
     box-shadow: 0 0 2px 7px rgba(0, 128, 128, 0.4);
+    overflow: hidden;
 }
 
-.month-income {
-    font-family: "Main", Courier, monospace;
-    font-size: 32px;
-    font-weight: bold;
-    background-color: rgba(0, 195, 195, 0.8);
-    border: 0.5px solid;
-    min-width: 50%;
-    padding: 30px 20px;
-    text-align: center;
-}
-
+.month-income,
 .month-spending {
     font-family: "Main", Courier, monospace;
     font-size: 32px;
     font-weight: bold;
-    min-width: 50%;
     background-color: rgba(0, 195, 195, 0.8);
     border: 0.5px solid;
-    padding: 30px 20px;
+    min-width: 50%;
+    padding: 30px;
     text-align: center;
 }
 
+
 @media (max-width: 991px) {
-    * {
-        color: red;
+    .budget {
+        font-size: 36px;
     }
+
+    .budget-details {
+        height: 110px;
+    }
+
+    .month-income,
+    .month-spending {
+        min-height: 100%;
+        font-size: 24px;
+
+    }
+
 }
 
 @media (max-width: 767px) {
-    * {
-        color: blue;
+    .budget {
+        font-size: 32px;
+        padding: 30px;
+    }
+
+    .budget-details {
+        height: 90px;
+    }
+
+    .month-income,
+    .month-spending {
+        min-height: 100%;
+        font-size: 16px;
     }
 }
 </style>

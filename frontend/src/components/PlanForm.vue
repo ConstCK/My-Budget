@@ -76,7 +76,7 @@ export default {
 
 <style scoped>
 .plan-form {
-    width: 99%;
+    width: 98%;
     min-height: 60vh;
     margin: 0 auto 50px;
     display: flex;
@@ -96,6 +96,7 @@ export default {
     color: coral;
     margin: 20px;
     font-size: 32px;
+    text-align: center;
 }
 
 .plan-cell {
@@ -113,15 +114,69 @@ export default {
 .plan-category {
     margin: 20px;
     font-size: 32px;
+    min-width: 20%;
+}
+
+.current-plan {
+    min-width: 35%;
+    text-align: center;
 }
 
 .input {
-    width: 25%;
+    min-width: 22%;
 }
 
 [disabled] {
     pointer-events: none;
     background-color: white;
     color: black;
+}
+
+@media (max-width: 991px) {
+    .plan-category {
+        min-width: 25%;
+        font-size: 28px;
+    }
+
+    .current-plan {
+        font-size: 24px;
+    }
+
+    .input {
+        min-width: 20%;
+    }
+
+    .plan-cell {
+        width: 90vw;
+    }
+}
+
+@media (max-width: 767px) {
+    .header {
+        font-size: 22px;
+    }
+
+    .plan-category {
+        font-size: 14px;
+        margin: 6px;
+        min-width: 25%;
+    }
+
+    .current-plan {
+        font-size: 9px;
+        margin: 6px;
+        min-width: 30%;
+    }
+
+    .input {
+        min-width: 20%;
+        font-size: 9px;
+        margin: 10px 6px;
+    }
+
+    .btn {
+        min-height: 30px;
+        font-size: 16px;
+    }
 }
 </style>
