@@ -13,6 +13,7 @@ const ADD_SPENDING_URL = "add-spending/";
 const PLANS_URL = "get-plans/";
 const UPDATE_PLANS_URL = "update-plans/";
 const GENERAL_STATISTIC_URL = "statistic/general/";
+const ALL_STATISTIC_URL = "statistic/all/";
 const ANNUAL_STATISTIC_URL = "statistic/annual/";
 const MONTH_STATISTIC_URL = "statistic/month/";
 const MONTHS = {
@@ -48,5 +49,6 @@ export {
   GENERAL_STATISTIC_URL,
   ANNUAL_STATISTIC_URL,
   MONTH_STATISTIC_URL,
+  ALL_STATISTIC_URL,
   MONTHS,
 };

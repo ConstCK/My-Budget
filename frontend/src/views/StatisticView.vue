@@ -13,23 +13,47 @@
                     месяц</user-button>
             </nav>
             <div class="info-block" v-show="mode == 'General'">
+                <div class="data-bar">
+                    <user-button class="btn" @click="handleAllRequest">Все</user-button>
+                    <user-button class="btn" @click="handleCategorizedRequest">По категориям</user-button>
+                </div>
                 <div class="info-header">Доходы</div>
                 <div class="message" v-show="!incomeData">Нет данных...</div>
-                <div class="income-statistic">
+                <div class="income-statistic" v-show="categorizedData">
                     <div class="statistic-cell" v-for="element in allIncome" :key="element.id">
                         <div class="row">
                             <div class="income-title">{{ element.title }}</div>
-                            <div class="income-details">{{ element.overall }}{{ $store.state.currency }}</div>
+                            <div class="income-amount">{{ element.overall }}{{ $store.state.currency }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="income-statistic" v-show="!categorizedData">
+                    <div class="statistic-cell" v-for="element in allIncome" :key="element.id">
+                        <div class="row">
+                            <div class="income-title">{{ element.category_title }}</div>
+                            <div class="income-description">{{ element.description }}</div>
+                            <div class="income-date">{{ element.created_at }}</div>
+                            <div class="income-amount">{{ element.amount }}{{ $store.state.currency }}</div>
                         </div>
                     </div>
                 </div>
                 <div class="info-header">Расходы</div>
                 <div class="message" v-show="!spendingsData">Нет данных...</div>
-                <div class="income-statistic">
+                <div class="spending-statistic" v-show="categorizedData">
                     <div class="statistic-cell" v-for="element in allSpendings" :key="element.id">
                         <div class="row">
-                            <div class="income-title">{{ element.title }}</div>
-                            <div class="income-details">{{ element.overall }}{{ $store.state.currency }}</div>
+                            <div class="spending-title">{{ element.title }}</div>
+                            <div class="spending-details">{{ element.overall }}{{ $store.state.currency }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="spending-statistic" v-show="!categorizedData">
+                    <div class="statistic-cell" v-for="element in allSpendings" :key="element.id">
+                        <div class="row">
+                            <div class="spending-title">{{ element.category_title }}</div>
+                            <div class="spending-description">{{ element.description }}</div>
+                            <div class="spending-date">{{ element.created_at }}</div>
+                            <div class="spending-amount">{{ element.amount }}{{ $store.state.currency }}</div>
                         </div>
                     </div>
                 </div>
@@ -47,7 +71,7 @@
                     <div class="statistic-cell" v-for="element in allIncome" :key="element.id">
                         <div class="row">
                             <div class="income-title">{{ element.title }}</div>
-                            <div class="income-details">{{ element.overall }}{{ $store.state.currency }}</div>
+                            <div class="income-amount">{{ element.overall }}{{ $store.state.currency }}</div>
                         </div>
                     </div>
                 </div>
@@ -57,7 +81,7 @@
                     <div class="statistic-cell" v-for="element in allSpendings" :key="element.id">
                         <div class="row">
                             <div class="spending-title">{{ element.title }}</div>
-                            <div class="spending-details">{{ element.overall }}{{ $store.state.currency }}</div>
+                            <div class="spending-amount">{{ element.overall }}{{ $store.state.currency }}</div>
                         </div>
                     </div>
                 </div>
@@ -79,7 +103,7 @@
                     <div class="statistic-cell" v-for="element in allIncome" :key="element.id">
                         <div class="row">
                             <div class="income-title">{{ element.title }}</div>
-                            <div class="income-details">{{ element.overall }}{{ $store.state.currency }}</div>
+                            <div class="income-amount">{{ element.overall }}{{ $store.state.currency }}</div>
                         </div>
                     </div>
                 </div>
@@ -90,12 +114,12 @@
                         <div class="planned row">
                             <div class="category-title">Запланированный расход</div>
                             <div class="spending-title">{{ element.title }}</div>
-                            <div class="planned-details">{{ element.planned }}{{ $store.state.currency }}</div>
+                            <div class="planned-amount">{{ element.planned }}{{ $store.state.currency }}</div>
                         </div>
                         <div class="actual row">
                             <div class="category-title">Фактический расход</div>
                             <div class="spending-title">{{ element.title }}</div>
-                            <div class="actual-details"
+                            <div class="actual-amount"
                                 :class="element.planned >= element.overall ? 'positive' : 'negative'">
                                 {{ element.overall }}{{ $store.state.currency }}</div>
                         </div>
@@ -111,7 +135,7 @@ import AuthHeaderFull from "@/components/AuthHeaderFull.vue";
 import NavBar from "@/components/NavBar.vue";
 import UserButton from "@/components/UI/UserButton.vue";
 import UserSelect from "@/components/UI/UserSelect.vue";
-import { getGeneralStatistic, getAnnualStatistic, getMonthStatistic } from "@/API/apiServices.js";
+import { getGeneralStatistic, getAnnualStatistic, getMonthStatistic, getAllStatistic } from "@/API/apiServices.js";
 import { MONTHS } from "@/constants/constants.js"
 
 
@@ -128,6 +152,7 @@ export default {
             token: localStorage.getItem("token"),
             allSpendings: [],
             allIncome: [],
+            categorizedData: false,
             planList: [],
             mode: null,
             currentYear: "",
@@ -140,12 +165,6 @@ export default {
             this.mode = "General";
             this.currentYear = "";
             this.currentMonth = "";
-            getGeneralStatistic(this.token).then((response) => {
-                this.allIncome = response.data.income
-                this.allSpendings = response.data.spending
-            }).catch((err) => {
-                console.log(err)
-            })
         },
         handleAnnualStatistic() {
             this.mode = "Annual";
@@ -160,6 +179,25 @@ export default {
             this.currentMonth = "";
             this.allIncome = "";
             this.allSpendings = "";
+        },
+        handleAllRequest() {
+            getAllStatistic(this.token).then((response) => {
+                console.log(response.data)
+                this.categorizedData = false;
+                this.allIncome = response.data.income
+                this.allSpendings = response.data.spending
+            }).catch((err) => {
+                console.log(err)
+            })
+        },
+        handleCategorizedRequest() {
+            getGeneralStatistic(this.token).then((response) => {
+                this.categorizedData = true;
+                this.allIncome = response.data.income
+                this.allSpendings = response.data.spending
+            }).catch((err) => {
+                console.log(err)
+            })
         },
         handleAnnualRequest() {
             getAnnualStatistic(this.token, this.currentYear).then((response) => {
@@ -273,6 +311,30 @@ export default {
     padding: 15px;
 }
 
+.income-title,
+.spending-title {
+    min-width: 20%;
+    text-align: start;
+}
+
+.income-description,
+.spending-description {
+    min-width: 35%;
+    text-align: center;
+}
+
+.income-date,
+.spending-date {
+    min-width: 15%;
+}
+
+.income-amount,
+.spending-amount {
+    min-width: 15%;
+    text-align: end;
+}
+
+
 .actual {
     background-color: rgba(0, 0, 0, 0.8);
 }
@@ -285,13 +347,14 @@ export default {
     width: 35%;
 }
 
-.planned-details,
-.actual-details {
+.planned-amount,
+.actual-amount {
     width: 20%;
     text-align: right;
 }
 
-.date-bar {
+.date-bar,
+.data-bar {
     display: flex;
     flex-direction: row;
     justify-content: center;

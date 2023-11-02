@@ -17,6 +17,7 @@ import {
   GENERAL_STATISTIC_URL,
   ANNUAL_STATISTIC_URL,
   MONTH_STATISTIC_URL,
+  ALL_STATISTIC_URL,
 } from "@/constants/constants";
 
 const login = async (user, password) => {
@@ -249,6 +250,22 @@ const getGeneralStatistic = async (token) => {
   }
 };
 
+const getAllStatistic = async (token) => {
+  try {
+    const response = await axios({
+      baseURL: BASE_URL,
+      url: ALL_STATISTIC_URL,
+      method: "get",
+      headers: {
+        Authorization: "Token " + token,
+      },
+    });
+    return response;
+  } catch (error) {
+    console.log(`Ошибка получения данных: ${error}`);
+  }
+};
+
 const getAnnualStatistic = async (token, year) => {
   try {
     const response = await axios({
@@ -304,4 +321,5 @@ export {
   getGeneralStatistic,
   getAnnualStatistic,
   getMonthStatistic,
+  getAllStatistic,
 };

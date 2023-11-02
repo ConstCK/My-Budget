@@ -26,12 +26,15 @@ class BalanceSerializer(serializers.ModelSerializer):
 
 
 class SpendingSerializer(serializers.ModelSerializer):
+    category_title = serializers.CharField()
+
     class Meta:
         fields = "__all__"
         model = Spending
 
 
 class IncomeSerializer(serializers.ModelSerializer):
+    category_title = serializers.CharField()
     class Meta:
         fields = "__all__"
         model = Income
@@ -62,6 +65,5 @@ class PlanSerializer(serializers.ModelSerializer):
 class GeneralStatisticSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
     overall = serializers.IntegerField(min_value=0, default=0, read_only=True)
-    planned = serializers.IntegerField(read_only=True, default=0,)
+    planned = serializers.IntegerField(read_only=True, default=0, )
     title = serializers.CharField(max_length=128, read_only=True)
-

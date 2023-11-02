@@ -228,13 +228,31 @@ def update_plans(request):
 def get_general_statistic(request):
     try:
         user = request.user.id
-        spending_categories = SpendingCategory.objects.filter(family=user)\
+        spending_categories = SpendingCategory.objects.filter(family=user) \
             .annotate(overall=Sum("get_spending__amount", default=0))
-        income_categories = IncomeCategory.objects.filter(family=user)\
+        income_categories = IncomeCategory.objects.filter(family=user) \
             .annotate(overall=Sum("get_income__amount", default=0))
 
         spending_serializer = GeneralStatisticSerializer(spending_categories, many=True)
         income_serializer = GeneralStatisticSerializer(income_categories, many=True)
+        return Response({"spending": spending_serializer.data, "income": income_serializer.data})
+    except Exception as error:
+        raise Exception(f"Ошибка получения данных... {error}")
+
+
+@api_view(["GET"])
+@authentication_classes([TokenAuthentication])
+@permission_classes([IsAuthenticated])
+def get_all_statistic(request):
+    try:
+        user = request.user.id
+        spending = Spending.objects.filter(family=user).order_by("created_at")\
+            .annotate(category_title=F("category__title"))
+
+        income = Income.objects.filter(family=user).order_by("created_at")\
+            .annotate(category_title=F("category__title"))
+        spending_serializer = SpendingSerializer(spending, many=True)
+        income_serializer = IncomeSerializer(income, many=True)
         return Response({"spending": spending_serializer.data, "income": income_serializer.data})
     except Exception as error:
         raise Exception(f"Ошибка получения данных... {error}")
@@ -247,10 +265,10 @@ def get_annual_statistic(request):
     try:
         user = request.user.id
         spending_categories = SpendingCategory.objects.filter(family=user,
-                                                              get_spending__created_at__year=request.data["year"])\
+                                                              get_spending__created_at__year=request.data["year"]) \
             .annotate(overall=Sum("get_spending__amount", default=0))
         income_categories = IncomeCategory.objects.filter(family=user,
-                                                          get_income__created_at__year=request.data["year"])\
+                                                          get_income__created_at__year=request.data["year"]) \
             .annotate(overall=Sum("get_income__amount", default=0))
         spending_serializer = GeneralStatisticSerializer(spending_categories, many=True)
         income_serializer = GeneralStatisticSerializer(income_categories, many=True)
@@ -267,7 +285,7 @@ def get_month_statistic(request):
         user = request.user.id
         spending_categories = SpendingCategory.objects.filter(family=user,
                                                               get_spending__created_at__year=request.data["year"],
-                                                              get_spending__created_at__month=request.data["month"])\
+                                                              get_spending__created_at__month=request.data["month"]) \
             .annotate(overall=Sum("get_spending__amount", default=0)).annotate(planned=F("get_plan__amount"))
 
         income_categories = IncomeCategory.objects.filter(family=user,
