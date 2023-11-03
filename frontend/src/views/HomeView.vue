@@ -12,7 +12,7 @@ import NavBar from "@/components/NavBar.vue";
 import MainBlock from "@/components/MainBlock.vue";
 
 export default {
-  name: 'HomeView',
+  name: 'home-view',
   components: {
     NavBar,
     AuthHeaderFull,

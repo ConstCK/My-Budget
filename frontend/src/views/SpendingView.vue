@@ -13,7 +13,7 @@ import BudgetForm from "@/components/BudgetForm.vue";
 import { addSpending } from "@/API/apiServices.js";
 
 export default {
-    name: "SpendingView",
+    name: "spending-view",
     components: {
         NavBar,
         AuthHeaderFull,

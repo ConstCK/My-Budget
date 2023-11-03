@@ -16,10 +16,13 @@
                 <div class="data-bar">
                     <user-button class="btn" @click="handleAllRequest">Все</user-button>
                     <user-button class="btn" @click="handleCategorizedRequest">По категориям</user-button>
+                    <user-button class="btn" @click="handleChartRequest">Графики</user-button>
                 </div>
                 <div class="info-header">Доходы</div>
                 <div class="message" v-show="!incomeData">Нет данных...</div>
-                <div class="income-statistic" v-show="categorizedData">
+                <bar-chart v-show="dataDisplay === 'chart'" v-if="loaded" :data="incomeChartData"
+                    :options="options"></bar-chart>
+                <div class="income-statistic" v-show="dataDisplay === 'categorized'">
                     <div class="statistic-cell" v-for="element in allIncome" :key="element.id">
                         <div class="row">
                             <div class="income-title">{{ element.title }}</div>
@@ -27,7 +30,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="income-statistic" v-show="!categorizedData">
+                <div class="income-statistic" v-show="dataDisplay === 'all'">
                     <div class="statistic-cell" v-for="element in allIncome" :key="element.id">
                         <div class="row">
                             <div class="income-title">{{ element.category_title }}</div>
@@ -39,7 +42,9 @@
                 </div>
                 <div class="info-header">Расходы</div>
                 <div class="message" v-show="!spendingsData">Нет данных...</div>
-                <div class="spending-statistic" v-show="categorizedData">
+                <bar-chart v-show="dataDisplay === 'chart'" v-if="loaded" :data="spendingChartData"
+                    :options="options"></bar-chart>
+                <div class="spending-statistic" v-show="dataDisplay === 'categorized'">
                     <div class="statistic-cell" v-for="element in allSpendings" :key="element.id">
                         <div class="row">
                             <div class="spending-title">{{ element.title }}</div>
@@ -47,7 +52,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="spending-statistic" v-show="!categorizedData">
+                <div class="spending-statistic" v-show="dataDisplay === 'all'">
                     <div class="statistic-cell" v-for="element in allSpendings" :key="element.id">
                         <div class="row">
                             <div class="spending-title">{{ element.category_title }}</div>
@@ -137,27 +142,65 @@ import UserButton from "@/components/UI/UserButton.vue";
 import UserSelect from "@/components/UI/UserSelect.vue";
 import { getGeneralStatistic, getAnnualStatistic, getMonthStatistic, getAllStatistic } from "@/API/apiServices.js";
 import { MONTHS } from "@/constants/constants.js"
+import BarChart from "@/components/UI/BarChart.vue";
+import { getCurrentInstance } from "vue";
 
 
 export default {
-    name: "StatisticView",
+    name: "statistic-view",
     components: {
         NavBar,
         AuthHeaderFull,
         UserButton,
         UserSelect,
+        BarChart,
     },
     data() {
         return {
             token: localStorage.getItem("token"),
             allSpendings: [],
             allIncome: [],
-            categorizedData: false,
+            dataDisplay: "all",
             planList: [],
             mode: null,
             currentYear: "",
             currentMonth: "",
             months: MONTHS,
+            loaded: false,
+            incomeChartData: {
+                labels: [],
+                datasets: [
+                    {
+                        label: 'Доходы',
+                        backgroundColor: '#008080',
+                        data: []
+                    },
+                ]
+            },
+            spendingChartData: {
+                labels: [],
+                datasets: [
+                    {
+                        label: 'Расходы',
+                        backgroundColor: '#FF4500',
+                        data: []
+                    },
+
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            minor: {
+                                size: 5
+                            }
+                        }
+                    }]
+                }
+            }
         }
     },
     methods: {
@@ -182,8 +225,7 @@ export default {
         },
         handleAllRequest() {
             getAllStatistic(this.token).then((response) => {
-                console.log(response.data)
-                this.categorizedData = false;
+                this.dataDisplay = "all";
                 this.allIncome = response.data.income
                 this.allSpendings = response.data.spending
             }).catch((err) => {
@@ -192,9 +234,23 @@ export default {
         },
         handleCategorizedRequest() {
             getGeneralStatistic(this.token).then((response) => {
-                this.categorizedData = true;
-                this.allIncome = response.data.income
-                this.allSpendings = response.data.spending
+                this.dataDisplay = "categorized";
+                this.allIncome = response.data.income;
+                this.allSpendings = response.data.spending;
+            }).catch((err) => {
+                console.log(err)
+            })
+        },
+        handleChartRequest() {
+            getGeneralStatistic(this.token).then((response) => {
+                this.dataDisplay = "chart";
+                this.allIncome = response.data.income;
+                this.allSpendings = response.data.spending;
+                this.incomeChartData["labels"] = this.getIncomeLabels
+                this.incomeChartData["datasets"][0]["data"] = this.getIncomeData
+                this.spendingChartData["labels"] = this.getSpendingLabels
+                this.spendingChartData["datasets"][0]["data"] = this.getSpendingData
+                this.loaded = true;
             }).catch((err) => {
                 console.log(err)
             })
@@ -211,7 +267,6 @@ export default {
             getMonthStatistic(this.token, this.currentYear, this.currentMonth).then((response) => {
                 this.allIncome = response.data.income
                 this.allSpendings = response.data.spending
-                console.log(this.allSpendings)
             }).catch((err) => {
                 console.log(err)
             })
@@ -232,8 +287,37 @@ export default {
         },
         incomeData() {
             return this.allIncome.length > 0
-        }
+        },
+        getIncomeLabels() {
+            let result = [];
+            this.allIncome.forEach((e) => {
+                result.push(e.title)
+            })
+            return result
+        },
+        getSpendingLabels() {
+            let result = [];
+            this.allSpendings.forEach((e) => {
+                result.push(e.title)
+            })
+            return result
+        },
+        getIncomeData() {
+            let result = [];
+            this.allIncome.forEach((e) => {
+                result.push(e.overall)
+            })
+            return result
+        },
+        getSpendingData() {
+            let result = [];
+            this.allSpendings.forEach((e) => {
+                result.push(e.overall)
+            })
+            return result
+        },
     },
+
 }
 </script>
 
@@ -315,23 +399,27 @@ export default {
 .spending-title {
     min-width: 20%;
     text-align: start;
+    margin: 10px;
 }
 
 .income-description,
 .spending-description {
-    min-width: 35%;
+    min-width: 32%;
     text-align: center;
+    margin: 10px;
 }
 
 .income-date,
 .spending-date {
-    min-width: 15%;
+    min-width: 18%;
+    margin: 10px;
 }
 
 .income-amount,
 .spending-amount {
     min-width: 15%;
     text-align: end;
+    margin: 10px;
 }
 
 
@@ -379,12 +467,31 @@ export default {
     color: red;
 }
 
+@media (max-width: 991px) {
+    .info-header {
+        margin: 10px;
+        font-size: 28px;
+    }
+
+    .row {
+        padding: 5px;
+    }
+
+    .row>div {
+        margin: 5px;
+    }
+
+    .statistic-cell {
+        font-size: 16px;
+    }
+}
+
 @media (max-width: 767px) {
 
     .btn,
     .select {
         min-width: 60px;
-        min-height: 50px;
+        min-height: 30px;
         width: 100px;
         margin: 10px;
         padding: 5px;
@@ -392,7 +499,19 @@ export default {
     }
 
     .statistic-cell {
-        font-size: 12px;
+        font-size: 10px;
     }
+
+    .info-header {
+        margin: 10px;
+        font-size: 24px;
+    }
+
+    .message {
+        margin: 5px;
+        padding: 10px;
+        font-size: 18px;
+    }
+
 }
 </style>

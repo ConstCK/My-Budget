@@ -35,6 +35,7 @@ class SpendingSerializer(serializers.ModelSerializer):
 
 class IncomeSerializer(serializers.ModelSerializer):
     category_title = serializers.CharField()
+
     class Meta:
         fields = "__all__"
         model = Income

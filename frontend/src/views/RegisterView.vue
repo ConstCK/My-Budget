@@ -9,7 +9,7 @@ import AuthHeaderShort from "@/components/AuthHeaderShort.vue";
 import AuthForm from "@/components/AuthForm.vue";
 
 export default {
-    name: "auth-view",
+    name: "register-view",
     components: {
         AuthHeaderShort, AuthForm
     },

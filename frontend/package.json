@@ -9,9 +9,11 @@
   "dependencies": {
     "@popperjs/core": "^2.11.8",
     "axios": "^1.5.1",
+    "chart.js": "^4.4.0",
     "core-js": "^3.8.3",
     "v-calendar": "^3.1.2",
     "vue": "^3.2.13",
+    "vue-chartjs": "^5.2.0",
     "vue-router": "^4.0.3",
     "vuex": "^4.0.0"
   },

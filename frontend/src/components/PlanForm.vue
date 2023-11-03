@@ -118,7 +118,7 @@ export default {
 }
 
 .current-plan {
-    min-width: 35%;
+    min-width: 50%;
     text-align: center;
 }
 
@@ -139,6 +139,7 @@ export default {
     }
 
     .current-plan {
+        min-width: 40%;
         font-size: 24px;
     }
 
@@ -163,15 +164,16 @@ export default {
     }
 
     .current-plan {
-        font-size: 9px;
+        font-size: 10px;
         margin: 6px;
-        min-width: 30%;
+        min-width: 40%;
     }
 
     .input {
         min-width: 20%;
-        font-size: 9px;
+        font-size: 12px;
         margin: 10px 6px;
+        min-width: 15%;
     }
 
     .btn {
