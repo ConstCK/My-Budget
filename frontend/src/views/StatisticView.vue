@@ -14,14 +14,17 @@
             </nav>
             <div class="info-block" v-show="mode == 'General'">
                 <div class="data-bar">
-                    <user-button class="btn" @click="handleAllRequest">Все</user-button>
-                    <user-button class="btn" @click="handleCategorizedRequest">По категориям</user-button>
-                    <user-button class="btn" @click="handleChartRequest">Графики</user-button>
+                    <user-button class="btn" :class="dataDisplay == 'all' ? 'active' : 'inactive'"
+                        @click="handleAllRequest">Все</user-button>
+                    <user-button class="btn" :class="dataDisplay == 'categorized' ? 'active' : 'inactive'"
+                        @click="handleCategorizedRequest">По категориям</user-button>
+                    <user-button class="btn" :class="dataDisplay == 'chart' ? 'active' : 'inactive'"
+                        @click="handleChartRequest">Графики</user-button>
                 </div>
-                <div class="info-header">Доходы</div>
+                <div class="info-header" v-show="dataDisplay !== 'chart'">Доходы</div>
                 <div class="message" v-show="!incomeData">Нет данных...</div>
                 <bar-chart v-show="dataDisplay === 'chart'" v-if="loaded" :data="incomeChartData"
-                    :options="options"></bar-chart>
+                    :options="incomeOptions"></bar-chart>
                 <div class="income-statistic" v-show="dataDisplay === 'categorized'">
                     <div class="statistic-cell" v-for="element in allIncome" :key="element.id">
                         <div class="row">
@@ -40,10 +43,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="info-header">Расходы</div>
+                <div class="info-header" v-show="dataDisplay !== 'chart'">Расходы</div>
                 <div class="message" v-show="!spendingsData">Нет данных...</div>
                 <bar-chart v-show="dataDisplay === 'chart'" v-if="loaded" :data="spendingChartData"
-                    :options="options"></bar-chart>
+                    :options="spendingOptions"></bar-chart>
                 <div class="spending-statistic" v-show="dataDisplay === 'categorized'">
                     <div class="statistic-cell" v-for="element in allSpendings" :key="element.id">
                         <div class="row">
@@ -143,7 +146,6 @@ import UserSelect from "@/components/UI/UserSelect.vue";
 import { getGeneralStatistic, getAnnualStatistic, getMonthStatistic, getAllStatistic } from "@/API/apiServices.js";
 import { MONTHS } from "@/constants/constants.js"
 import BarChart from "@/components/UI/BarChart.vue";
-import { getCurrentInstance } from "vue";
 
 
 export default {
@@ -185,20 +187,73 @@ export default {
                         backgroundColor: '#FF4500',
                         data: []
                     },
-
                 ]
             },
-            options: {
+            spendingOptions: {
                 responsive: true,
                 maintainAspectRatio: true,
-                scales: {
-                    xAxes: [{
-                        ticks: {
-                            minor: {
-                                size: 5
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: "#FFFFFF",
+                            font: {
+                                size: 24,
+                                family: 'Main',
                             }
                         }
-                    }]
+                    },
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            font: {
+                                family: 'Main',
+                            },
+                            autoSkip: false,
+                            maxRotation: 95,
+                            minRotation: 85,
+                            color: "#FFFFFF",
+                            padding: 15,
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: "#FFFFFF",
+                        }
+                    }
+                }
+            },
+            incomeOptions: {
+                responsive: true,
+                maintainAspectRatio: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        labels: {
+                            color: "#FFFFFF",
+                            font: {
+                                size: 24,
+                                family: 'Main',
+                            }
+                        }
+                    },
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            font: {
+                                family: 'Main',
+                            },
+                            color: "#FFFFFF",
+                            padding: 15,
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: "#FFFFFF",
+                        }
+                    }
                 }
             }
         }
@@ -365,8 +420,7 @@ export default {
 .message {
     font-family: "Main", Courier, monospace;
     color: coral;
-    margin: 15px;
-    padding: 10px;
+    margin: 5px 15px;
     text-align: center;
     font-size: 24px;
 }
@@ -421,7 +475,6 @@ export default {
     text-align: end;
     margin: 10px;
 }
-
 
 .actual {
     background-color: rgba(0, 0, 0, 0.8);
@@ -509,7 +562,6 @@ export default {
 
     .message {
         margin: 5px;
-        padding: 10px;
         font-size: 18px;
     }
 

@@ -35,7 +35,7 @@ export default {
 
 @media (max-width: 991px) {
     .nav-btn {
-        padding: 5px 10px;
+        padding: 10px;
         font-size: 16px;
         min-height: 30px;
     }
