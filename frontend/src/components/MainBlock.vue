@@ -37,16 +37,17 @@ export default {
         }
     },
     mounted() {
-        if (this.currentUser.length > 0) {
+
+        if (this.currentUser !== null) {
             this.$store.commit("logIn")
+            getMainData(this.token).then((response) => {
+                this.currentBudget = response.data.balance;
+                this.currentIncome = response.data.income["total_income"];
+                this.currentSpending = response.data.spending["total_spending"];
+            }).catch((error) => {
+                console.log("Ошибка получения данных:", error)
+            })
         }
-        getMainData(this.token).then((response) => {
-            this.currentBudget = response.data.balance;
-            this.currentIncome = response.data.income["total_income"];
-            this.currentSpending = response.data.spending["total_spending"];
-        }).catch((error) => {
-            console.log("Ошибка получения данных:", error)
-        })
     }
 }
 </script>
